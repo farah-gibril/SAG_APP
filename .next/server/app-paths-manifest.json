@@ -1,0 +1,4 @@
+{
+  "/api/auth/[kindeAuth]/route": "app/api/auth/[kindeAuth]/route.js",
+  "/_not-found/page": "app/_not-found/page.js"
+}

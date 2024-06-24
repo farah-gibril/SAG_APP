@@ -5,7 +5,10 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
+// const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
+// change to above later once the getUser is implmemeneted
+
+const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
   const [isOpen, setOpen] = useState<boolean>(false)
 
   const toggleOpen = () => setOpen((prev) => !prev)

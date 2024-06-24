@@ -1,13 +1,14 @@
 import '../styles/globals.css';
 import type { AppProps } from 'next/app';
-import Navbar from '../components/Navbar';
+import Navbar from 'components/Navbar';
+import { KindeProvider } from "@kinde-oss/kinde-auth-nextjs";
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <>
-      <Navbar /> {/*Navbar component */}
+    <KindeProvider>
+      <Navbar /> 
       <Component {...pageProps} />
-    </>
+    </KindeProvider>
   );
 }
 

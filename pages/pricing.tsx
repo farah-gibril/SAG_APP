@@ -1,6 +1,6 @@
-import MaxWidthWrapper from '../components/MaxWidthWrapper'
-import { buttonVariants } from '../components/ui/button'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../components/ui/tooltip'
+import MaxWidthWrapper from 'components/MaxWidthWrapper'
+import { buttonVariants } from 'components/ui/button'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from 'components/ui/tooltip'
 import Link from 'next/link'
 import { ArrowRight, Check, HelpCircle } from 'lucide-react'
 
