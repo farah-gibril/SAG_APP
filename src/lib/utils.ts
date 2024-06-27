@@ -6,14 +6,14 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export function absoluteUrl(path: string) {
-  if (typeof window !== 'undefined') return path
-  if (process.env.VERCEL_URL)
-    return `https://${process.env.VERCEL_URL}${path}`
-  return `http://localhost:${
-    process.env.PORT ?? 3000
-  }${path}`
-}
+// export function absoluteUrl(path: string) {
+//   if (typeof window !== 'undefined') return path
+//   if (process.env.VERCEL_URL)
+//     return `https://${process.env.VERCEL_URL}${path}`
+//   return `http://localhost:${
+//     process.env.PORT ?? 3000
+//   }${path}`
+// }
 
 export function constructMetadata({
   title = "Test - the SaaS for x",
@@ -48,7 +48,7 @@ export function constructMetadata({
       creator: "x"
     },
     icons,
-    metadataBase: new URL('https://quill-jet.vercel.app'),
+    // metadataBase: new URL('to be added later'),
     themeColor: '#FFF',
     ...(noIndex && {
       robots: {
