@@ -16,7 +16,7 @@ const nextConfig = {
   },
 
   images: {
-    domains: ['gravatar.com'],
+    domains: ['gravatar.com', 'lh3.googleusercontent.com'],
   },
 
   webpack: (
