@@ -14,14 +14,14 @@ datasource db {
   relationMode = "prisma"
 }
 
-model User  {
-  id String @id @unique // matches kinde user id
-  email String @unique
-
+model User {
+  id        String  @id @unique // matches kinde user id
+  email     String  @unique
+  firstName String?
+  lastName  String?
 
   // Info for later so faysal can use for stripe
   stripeSubscriptionId   String?   @unique @map(name: "stripe_subscription_id")
   stripePriceId          String?   @map(name: "stripe_price_id")
   stripeCurrentPeriodEnd DateTime? @map(name: "stripe_current_period_end")
-
 }

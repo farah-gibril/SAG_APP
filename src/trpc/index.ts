@@ -4,32 +4,34 @@ import { TRPCError } from "@trpc/server";
 import { db } from "@/db";
 
 export const appRouter = router({
- authCallback: publicProcedure.query(async () => {
-   const session = await getKindeServerSession();
-   const user = await session.getUser();
+  authCallback: publicProcedure.query(async () => {
+    const session = await getKindeServerSession();
+    const user = await session.getUser();
 
-   if (!user || !user.id || !user.email)
-     throw new TRPCError({ code: 'UNAUTHORIZED' })
+    if (!user || !user.id || !user.email || !user.given_name || !user.family_name)
+      throw new TRPCError({ code: 'UNAUTHORIZED' });
 
-   // Check if the user exists in the database
-   const dbUser = await db.user.findFirst({
-     where: {
-       id: user.id,
-     },
-   })
+    // Check if the user exists in the database
+    const dbUser = await db.user.findFirst({
+      where: {
+        id: user.id,
+      },
+    });
 
-   // If the user doesn't exist, create a new user in the database
-   if (!dbUser) {
-     await db.user.create({
-       data: {
-         id: user.id,
-         email: user.email,
-       },
-     })
-   }
+    // If the user doesn't exist, create a new user in the database
+    if (!dbUser) {
+      await db.user.create({
+        data: {
+          id: user.id,
+          email: user.email,
+          firstName: user.given_name,
+          lastName: user.family_name,
+        },
+      });
+    }
 
-   return { success: true }
- }),
+    return { success: true };
+  }),
 });
 
 export type AppRouter = typeof appRouter;
