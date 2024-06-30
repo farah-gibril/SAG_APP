@@ -15,6 +15,10 @@ const nextConfig = {
     ]
   },
 
+  images: {
+    domains: ['gravatar.com', 'lh3.googleusercontent.com'],
+  },
+
   webpack: (
     config,
     { buildId, dev, isServer, defaultLoaders, webpack }
