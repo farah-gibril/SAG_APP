@@ -2,7 +2,7 @@
 
 import Skeleton from 'react-loading-skeleton';
 import { format } from 'date-fns';
-import { FiMail, FiUser, FiCalendar, FiDollarSign } from 'react-icons/fi';
+import { FiMail, FiUser, FiCalendar, FiDollarSign, FiPhone } from 'react-icons/fi';
 
 interface PageProps {
   user: {
@@ -13,6 +13,7 @@ interface PageProps {
     stripeCurrentPeriodEnd: Date | null;
     firstName: string | null;
     lastName: string | null;
+    phoneNumber: string | null;
   };
 }
 
@@ -51,6 +52,15 @@ const Dashboard = ({ user }: PageProps) => {
                 </div>
                 <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="flex items-center text-sm font-medium text-gray-500">
+                    <FiPhone className="h-5 w-5 mr-2" />
+                    Phone Number
+                  </dt>
+                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                    {user.phoneNumber || 'N/A'}
+                  </dd>
+                </div>
+                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                  <dt className="flex items-center text-sm font-medium text-gray-500">
                     <FiDollarSign className="h-5 w-5 mr-2" />
                     Subscription Price
                   </dt>
@@ -58,7 +68,7 @@ const Dashboard = ({ user }: PageProps) => {
                     {user.stripePriceId || 'N/A'}
                   </dd>
                 </div>
-                <div className="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                   <dt className="flex items-center text-sm font-medium text-gray-500">
                     <FiCalendar className="h-5 w-5 mr-2" />
                     Subscription End Date

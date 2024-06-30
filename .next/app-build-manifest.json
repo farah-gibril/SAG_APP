@@ -1,9 +1,9 @@
 {
   "pages": {
-    "/dashboard/page": [
+    "/enter-phone-number/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/dashboard/page.js"
+      "static/chunks/app/enter-phone-number/page.js"
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -16,10 +16,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
-    "/_not-found/page": [
+    "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/_not-found/page.js"
+      "static/chunks/app/dashboard/page.js"
+    ],
+    "/auth-callback/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/auth-callback/page.js"
     ]
   }
 }

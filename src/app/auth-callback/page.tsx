@@ -9,23 +9,32 @@ const Page = () => {
   const searchParams = useSearchParams()
   const origin = searchParams.get('origin')
 
+  console.log('Rendering auth-callback component');
+
   // Fetch authentication callback data with retry logic
   const { data, error, isLoading } = trpc.authCallback.useQuery(undefined, {
     retry: true,
     retryDelay: 500,
   })
 
-  if (data?.success) {
-    // Redirect user to the origin or dashboard if authentication is successful
-    router.push(origin ? `/${origin}` : '/dashboard')
+  console.log('Authentication callback data:', data);
+  console.log('Authentication callback error:', error);
+  console.log('Authentication callback isLoading:', isLoading);
+
+  if (data?.success && data.userId) {
+    console.log('Authentication successful, redirecting to enter phone number page');
+    // Redirect user to the enter phone number page if authentication is successful
+    router.push(`/enter-phone-number?userId=${data.userId}`)
   }
 
   if (error?.data?.code === 'UNAUTHORIZED') {
+    console.error('Unauthorized, redirecting to sign-in page');
     // Redirect to sign-in page if unauthorized
     router.push('/sign-in')
   }
 
   if (isLoading) {
+    console.log('Authentication callback is loading');
     // Show loading state while authentication callback is in progress
     return (
       <div className='w-full mt-24 flex justify-center'>
@@ -40,6 +49,7 @@ const Page = () => {
     )
   }
 
+  console.log('Authentication callback completed, no conditions met');
   // Return null if no conditions are met (fallback)
   return null
 }
