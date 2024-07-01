@@ -18,8 +18,8 @@ export function absoluteUrl(path: string) {
 export function constructMetadata({
   title = "SAG - Somali Graves Association",
   description = "SAG is a SaaS that specializes in managing graves and burial sites.",
-  image = "/thumbnail.png",
-  icons = "/favicon.ico",
+  image = "/logo.png",
+  icons = "/logo.png",
   noIndex = false
 }: {
   title?: string
