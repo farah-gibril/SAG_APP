@@ -24,22 +24,18 @@ const BillingForm = ({
 }: BillingFormProps) => {
   const { toast } = useToast()
 
-  const { mutate: createStripeSession, isLoading: isLoadingStripeSession } =
-    trpc.createStripeSession.useMutation({
-      onSuccess: ({ url }: { url: string | null }) => {
-        if (url) {
-          window.location.href = url;
-        } else {
-          toast({
-            title: 'There was a problem...',
-            description: 'Please try again in a moment',
-            variant: 'destructive',
-          });
-        }
-      },
-    });
-
-  const isLoading = isLoadingStripeSession;
+  const { mutate: createStripeSession, isLoading } = trpc.createStripeSession.useMutation({
+    onSuccess: ({ url }) => {
+      if (url) window.location.href = url
+      if (!url) {
+        toast({
+          title: 'There was a problem...',
+          description: 'Please try again in a moment',
+          variant: 'destructive',
+        })
+      }
+    },
+  }) as any
 
   return (
     <MaxWidthWrapper className='max-w-5xl'>
