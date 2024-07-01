@@ -1,17 +1,16 @@
-import MaxWidthWrapper from '@/components/MaxWidthWrapper'
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import { Check, HelpCircle } from 'lucide-react'
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import UpgradeButton from '@/components/UpgradeButton'
-import Link from 'next/link'
-import { buttonVariants } from '@/components/ui/button'
+import MaxWidthWrapper from '@/components/MaxWidthWrapper';
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
+import { Check, HelpCircle } from 'lucide-react';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import UpgradeButton from '@/components/UpgradeButton';
+import Link from 'next/link';
+import { buttonVariants } from '@/components/ui/button';
 
 const Page = async () => {
-  const { getUser } = getKindeServerSession()
-  const user = await getUser()
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
 
-  console.log('User in pricing page:', user)
-
+  console.log('User in pricing page:', user);
 
   const pricingItems = [
     {
@@ -21,28 +20,26 @@ const Page = async () => {
       features: [
         'Regular membership fee: $150',
         'Admin fee: $50',
-        'Total: $200'
+        'Total: $200',
       ],
     },
     {
       plan: 'Standard Pricing (for existing members)',
       price: 150,
-      description: 'This plan is for existing members looking to renew their membership, if you are a new member this plan does not apply to you',
+      description: 'This plan is for existing members looking to renew their membership. If you are a new member, this plan does not apply to you.',
       features: [
         'A family (father, mother, their children, and grandparents) living within the same address costs $150.',
         'One or two people sharing a house cost $150.',
-        'Children not living with a family at the same address must also pay $150.'
+        'Children not living with a family at the same address must also pay $150.',
       ],
-    }
+    },
   ];
 
   return (
     <>
       <MaxWidthWrapper className='mb-8 mt-24 text-center max-w-5xl'>
         <div className='mx-auto mb-10 sm:max-w-lg'>
-          <h1 className='text-6xl font-bold sm:text-7xl'>
-            Pricing
-          </h1>
+          <h1 className='text-6xl font-bold sm:text-7xl'>Pricing</h1>
           <p className='mt-5 text-gray-600 sm:text-lg'>
             Select the best plan that suits your needs and become a member of our community.
           </p>
@@ -57,18 +54,10 @@ const Page = async () => {
                 </div>
 
                 <div className='p-5'>
-                  <h3 className='my-3 text-center font-display text-3xl font-bold'>
-                    {item.plan}
-                  </h3>
-                  <p className='text-gray-500'>
-                    {item.description}
-                  </p>
-                  <p className='my-5 font-display text-6xl font-semibold'>
-                    ${item.price}
-                  </p>
-                  <p className='text-gray-500'>
-                    per year
-                  </p>
+                  <h3 className='my-3 text-center font-display text-3xl font-bold'>{item.plan}</h3>
+                  <p className='text-gray-500'>{item.description}</p>
+                  <p className='my-5 font-display text-6xl font-semibold'>${item.price}</p>
+                  <p className='text-gray-500'>per year</p>
                 </div>
 
                 <ul className='my-10 space-y-5 px-8'>
@@ -82,36 +71,22 @@ const Page = async () => {
                   ))}
                 </ul>
 
-<<<<<<< HEAD
-              <div className='border-t border-gray-200' />
-              <div className='p-5'>
-                {user ? (
-                  <UpgradeButton />
-                ) : (
-                  <Link
-                    href='/sign-in'
-                    className={buttonVariants({
-                      className: 'w-full',
-                      variant: 'secondary',
-                    })}>
-                    Sign up
-                  </Link>
-                )}
-=======
                 <div className='border-t border-gray-200' />
                 <div className='p-5'>
-                  <Link
-                    href={user ? '/dashboard' : '/sign-in'}
-                    className={buttonVariants({
-                      className: 'w-full',
-                      variant: 'secondary',
-                    })}
-                  >
-                    {user ? 'Renew now' : 'Sign up'}
-                    <ArrowRight className='h-5 w-5 ml-1.5' />
-                  </Link>
+                  {user ? (
+                    <UpgradeButton />
+                  ) : (
+                    <Link
+                      href='/sign-in'
+                      className={buttonVariants({
+                        className: 'w-full',
+                        variant: 'secondary',
+                      })}
+                    >
+                      Sign up
+                    </Link>
+                  )}
                 </div>
->>>>>>> 3df75378e962c72abd85a15e854fd56e098a2ca3
               </div>
             ))}
           </TooltipProvider>
@@ -121,8 +96,4 @@ const Page = async () => {
   );
 };
 
-<<<<<<< HEAD
-export default Page
-=======
 export default Page;
->>>>>>> 3df75378e962c72abd85a15e854fd56e098a2ca3
