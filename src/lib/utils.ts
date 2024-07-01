@@ -16,8 +16,8 @@ export function absoluteUrl(path: string) {
 }
 
 export function constructMetadata({
-  title = "Test - the SaaS for x",
-  description = "This is dummy content",
+  title = "SAG - Somali Graves Association",
+  description = "SAG is a SaaS that specializes in managing graves and burial sites.",
   image = "/thumbnail.png",
   icons = "/favicon.ico",
   noIndex = false
