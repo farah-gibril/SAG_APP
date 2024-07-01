@@ -4,32 +4,31 @@ import { TRPCError } from '@trpc/server';
 import { db } from '@/db';
 import { z } from 'zod';
 import { absoluteUrl } from '@/lib/utils';
-import { getUserSubscriptionPlan, stripe } from '@/lib/stripe';
-import { PLANS } from '@/config/stripe';
+import { stripe } from '@/lib/stripe';
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
     try {
       console.log('Executing authCallback query');
-      
+
       const session = await getKindeServerSession();
       console.log('Session:', session);
-  
+
       const user = await session.getUser();
       console.log('User:', user);
-  
+
       if (!user || !user.id || !user.email || !user.given_name || !user.family_name) {
         console.error('Unauthorized: User data is missing');
         throw new TRPCError({ code: 'UNAUTHORIZED' });
       }
-  
+
       // Check if the user exists in the database
       let dbUser = await db.user.findFirst({
         where: {
           id: user.id,
         },
       });
-  
+
       // If the user doesn't exist, create a new user in the database
       if (!dbUser) {
         console.log('Creating new user in the database');
@@ -44,7 +43,7 @@ export const appRouter = router({
       } else {
         console.log('User already exists in the database');
       }
-  
+
       console.log('Returning from authCallback query');
       return { success: true, userId: user.id };
     } catch (error) {
@@ -53,63 +52,54 @@ export const appRouter = router({
     }
   }),
 
-  createStripeSession: privateProcedure.mutation(async ({ ctx }) => {
-    const { userId } = ctx;
-  
-    console.log('Creating Stripe session for user:', userId);
-  
-    try {
-      const billingUrl = absoluteUrl('/dashboard/billing');
-  
-      if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
-  
-      const dbUser = await db.user.findFirst({
-        where: {
-          id: userId,
-        },
-      });
-  
-      if (!dbUser) throw new TRPCError({ code: 'UNAUTHORIZED' });
-  
-      const subscriptionPlan = await getUserSubscriptionPlan();
-  
-      if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
-        const stripeSession = await stripe.billingPortal.sessions.create({
-          customer: dbUser.stripeCustomerId,
-          return_url: billingUrl,
-        });
-  
-        console.log('Billing portal session created. URL:', stripeSession.url);
-        return { url: stripeSession.url };
-      }
-  
-      const stripeSession = await stripe.checkout.sessions.create({
-        success_url: billingUrl,
-        cancel_url: billingUrl,
-        payment_method_types: ['card'], // Remove 'paypal'
-        mode: 'payment', // Change to 'payment' mode for one-off payments
-        billing_address_collection: 'auto',
-        line_items: [
-          {
-            price: PLANS.find((plan) => plan.name === 'Membership 200')?.price.priceIds.test,
-            quantity: 1,
+  createStripeSession: privateProcedure
+    .input(z.object({ priceId: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { priceId } = input;
+      const { userId } = ctx;
+
+      console.log('Creating Stripe session for user:', userId, 'with priceId:', priceId);
+
+      try {
+        const billingUrl = absoluteUrl('/dashboard/billing');
+
+        if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
+
+        const dbUser = await db.user.findFirst({
+          where: {
+            id: userId,
           },
-        ],
-        metadata: {
-          userId: userId,
-        },
-      });
-  
-      console.log('Stripe checkout session created. URL:', stripeSession.url);
-      return { url: stripeSession.url };
-    } catch (error) {
-      console.error('Error creating Stripe session:', error);
-      throw new TRPCError({
-        code: 'INTERNAL_SERVER_ERROR',
-        message: 'An error occurred while creating the Stripe session',
-      });
-    }
-  }),
+        });
+
+        if (!dbUser) throw new TRPCError({ code: 'UNAUTHORIZED' });
+
+        const stripeSession = await stripe.checkout.sessions.create({
+          success_url: billingUrl,
+          cancel_url: billingUrl,
+          payment_method_types: ['card'],
+          mode: 'payment', // Change to 'payment' mode for one-off payments
+          billing_address_collection: 'auto',
+          line_items: [
+            {
+              price: priceId,
+              quantity: 1,
+            },
+          ],
+          metadata: {
+            userId: userId,
+          },
+        });
+
+        console.log('Stripe checkout session created. URL:', stripeSession.url);
+        return { url: stripeSession.url };
+      } catch (error) {
+        console.error('Error creating Stripe session:', error);
+        throw new TRPCError({
+          code: 'INTERNAL_SERVER_ERROR',
+          message: 'An error occurred while creating the Stripe session',
+        });
+      }
+    }),
 
   updatePhoneNumber: publicProcedure
     .input(z.object({ userId: z.string(), phoneNumber: z.string() }))

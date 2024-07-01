@@ -5,10 +5,7 @@ import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-// const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
-// change to above later once the getUser is implmemeneted
-
-const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
+const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
   const [isOpen, setOpen] = useState<boolean>(false)
 
   const toggleOpen = () => setOpen((prev) => !prev)
@@ -17,7 +14,7 @@ const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
 
   useEffect(() => {
     if (isOpen) toggleOpen()
-  }, [pathname])
+  }, [pathname, isOpen]) // Include 'isOpen' in the dependency array
 
   const closeOnCurrent = (href: string) => {
     if (pathname === href) {
@@ -39,9 +36,7 @@ const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
               <>
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/sign-up')
-                    }
+                    onClick={() => closeOnCurrent('/sign-up')}
                     className='flex items-center w-full font-semibold text-green-600'
                     href='/sign-up'>
                     Get started
@@ -51,9 +46,7 @@ const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/sign-in')
-                    }
+                    onClick={() => closeOnCurrent('/sign-in')}
                     className='flex items-center w-full font-semibold'
                     href='/sign-in'>
                     Sign in
@@ -62,9 +55,7 @@ const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/pricing')
-                    }
+                    onClick={() => closeOnCurrent('/pricing')}
                     className='flex items-center w-full font-semibold'
                     href='/pricing'>
                     Pricing
@@ -75,9 +66,7 @@ const MobileNav = ({ isAuth = false }: { isAuth?: boolean }) => {
               <>
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/dashboard')
-                    }
+                    onClick={() => closeOnCurrent('/dashboard')}
                     className='flex items-center w-full font-semibold'
                     href='/dashboard'>
                     Dashboard

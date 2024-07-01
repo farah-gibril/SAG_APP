@@ -2,7 +2,7 @@ import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
-import Image from 'next/image';
+import { RegisterLink } from '@kinde-oss/kinde-auth-nextjs/server';
 
 const Home: React.FC = () => {
   return (
@@ -19,23 +19,8 @@ const Home: React.FC = () => {
           Graves
         </h1>
         <p className="mt-5 max-w-prose text-zinc-700 sm:text-lg">
-        SAG is owned by the Somali Muslim Community This Organisation was built by 
-        Somali people in late 1997 for the local Somali community. As a member of 
-        SAG you are entitled to discount on Muslim graves provided by the SAG Victoria 
-        residing in a location in Victoria 
+          SAG is owned by the Somali Muslim Community. This Organisation was built by Somali people in late 1997 for the local Somali community. As a member of SAG you are entitled to discount on Muslim graves provided by the SAG Victoria residing in a location in Victoria.
         </p>
-
-        <Link
-          className={buttonVariants({
-            size: 'lg',
-            className: 'mt-5',
-          })}
-          href="/dashboard"
-          target="_blank"
-        >
-          Dashboard{' '}
-          <ArrowRight className="ml-2 h-5 w-5" />
-        </Link>
       </MaxWidthWrapper>
 
       {/* Value Proposition Section */}
@@ -63,7 +48,7 @@ const Home: React.FC = () => {
                     <li>He/She must be of Somali origin (one parent or both must be Somali)</li>
                     <li>Must be in a stable health condition (Don’t wait until a person is critically ill or in hospital to become a member)</li>
                     <li>Must be a Sunni Muslim</li>
-                    <li>Must pay the Membership fee every year between the period of July - end of September. Any payments made after this period is considered late, and a late fee will be applied.</li>
+                    <li>Must pay the Membership fee every year between the period of July - end of September. Any payments made after this period are considered late, and a late fee will be applied.</li>
                   </ul>
 
                   <h2 className="text-2xl font-bold mt-6 mb-4">The costs of being a member are:</h2>
@@ -74,25 +59,19 @@ const Home: React.FC = () => {
                     <li>All new members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.  **CAN WE APPLY THIS?**</li>
                   </ul>
 
-                  <Link
-                  className={buttonVariants({
-                    size: 'lg',
-                    className: 'mt-5',
-                  })}
-                  href="/billing"
-                  target="_blank"
-                >
-                  Become a member now!{' '}
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-
-
+                  <RegisterLink
+                    className={buttonVariants({
+                      size: 'lg',
+                      className: 'mt-5',
+                    })}
+                  >
+                    Become a member now!{' '}
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </RegisterLink>
                 </div>
               </div>
             </div>
           </div>
-
-          
 
           <div
             aria-hidden="true"
@@ -127,17 +106,31 @@ const Home: React.FC = () => {
       </div>
 
       {/* Contact Section */}
-      <div className="mx-auto max-w-5xl mb-32 sm:mt-55 text-center">
-        <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl">Contact Us</h2>
-        <p className="mt-4 text-2xl text-gray-600">
-          For any further inquiries please contact SAG with the numbers below:
-        </p>
-        <ul className="mt-4 space-y-2 text-2xl text-gray-700">
-          <li>Abdifitah Ahmed Hashi: 0411 303 932</li>
-          <li>Abukar Haji Abow: 0423 377 967</li>
-          <li>Hassan Ali Hassan: 0402 416 442</li>
-          <li>Hassan Farah Gibril: 0431 551 353</li>
-        </ul>
+      <div className="py-16">
+        <MaxWidthWrapper className="text-center">
+          <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl">Contact Us</h2>
+          <p className="mt-4 text-lg text-gray-600">
+            For any further inquiries, please contact SAG with the numbers below:
+          </p>
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8">
+            <div className="p-6 bg-white shadow rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900">Abdifitah Ahmed Hashi</h3>
+              <p className="mt-2 text-gray-700">0411 303 932</p>
+            </div>
+            <div className="p-6 bg-white shadow rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900">Abukar Haji Abow</h3>
+              <p className="mt-2 text-gray-700">0423 377 967</p>
+            </div>
+            <div className="p-6 bg-white shadow rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900">Hassan Ali Hassan</h3>
+              <p className="mt-2 text-gray-700">0402 416 442</p>
+            </div>
+            <div className="p-6 bg-white shadow rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900">Hassan Farah Gibril</h3>
+              <p className="mt-2 text-gray-700">0431 551 353</p>
+            </div>
+          </div>
+        </MaxWidthWrapper>
       </div>
     </>
   );

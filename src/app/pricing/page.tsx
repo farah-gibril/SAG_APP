@@ -1,6 +1,6 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
-import { Check, HelpCircle } from 'lucide-react';
+import { Tooltip, TooltipProvider } from '@/components/ui/tooltip';
+import { Check } from 'lucide-react';
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import UpgradeButton from '@/components/UpgradeButton';
 import Link from 'next/link';
@@ -9,8 +9,6 @@ import { buttonVariants } from '@/components/ui/button';
 const Page = async () => {
   const { getUser } = getKindeServerSession();
   const user = await getUser();
-
-  console.log('User in pricing page:', user);
 
   const pricingItems = [
     {
@@ -22,6 +20,7 @@ const Page = async () => {
         'Admin fee: $50',
         'Total: $200',
       ],
+      priceId: 'price_1PXOTMGnUCJjsBpAOWvpjX7P',
     },
     {
       plan: 'Standard Pricing (for existing members)',
@@ -32,6 +31,7 @@ const Page = async () => {
         'One or two people sharing a house cost $150.',
         'Children not living with a family at the same address must also pay $150.',
       ],
+      priceId: 'price_1PXOTMGnUCJjsBpAFOaVNSut',
     },
   ];
 
@@ -74,7 +74,7 @@ const Page = async () => {
                 <div className='border-t border-gray-200' />
                 <div className='p-5'>
                   {user ? (
-                    <UpgradeButton />
+                    <UpgradeButton priceId={item.priceId} />
                   ) : (
                     <Link
                       href='/sign-in'
