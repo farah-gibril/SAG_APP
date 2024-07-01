@@ -48,8 +48,8 @@ export function constructMetadata({
       creator: "x"
     },
     icons,
-    // metadataBase: new URL('to be added later'),
-    themeColor: '#FFF',
+    metadataBase: new URL('https://sag-app-pi.vercel.app/'),
+    // themeColor: '#FFF',
     ...(noIndex && {
       robots: {
         index: false,
