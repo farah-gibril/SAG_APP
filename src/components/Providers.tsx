@@ -15,7 +15,7 @@ const Providers = ({ children }: PropsWithChildren) => {
     trpc.createClient({
       links: [
         httpBatchLink({
-          url: absoluteUrl("https://sag-app-pi.vercel.app/api/trpc"),
+          url: absoluteUrl("/api/trpc"),
         }),
       ],
     })
