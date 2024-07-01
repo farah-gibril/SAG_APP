@@ -3,10 +3,11 @@ import { buttonVariants } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
 import Link from 'next/link'
 import { ArrowRight, Check, HelpCircle } from 'lucide-react'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
 
-const Page = () => {
-  // Placeholder for user authentication check
-  const user = null; // Will replace later
+const Page = async () => {
+  const { getUser } = getKindeServerSession()
+  const user = await getUser()
 
   const pricingItem = {
     plan: 'Pro',
@@ -104,7 +105,7 @@ const Page = () => {
                   className={buttonVariants({
                     className: 'w-full',
                     variant: 'secondary',
-                })}>
+                  })}>
                   {user ? 'Upgrade now' : 'Sign up'}
                   <ArrowRight className='h-5 w-5 ml-1.5' />
                 </Link>
