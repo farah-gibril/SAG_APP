@@ -6,6 +6,7 @@ import '@/app/globals.css'
 import 'react-loading-skeleton/dist/skeleton.css'
 import 'simplebar-react/dist/simplebar.min.css'
 import { Toaster } from '@/components/ui/toaster'
+import { Suspense } from 'react'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -28,8 +29,10 @@ export default function RootLayout({
           )}>
           {/* Render the Toaster component */}
           <Toaster />
-          {/* Render the Navbar component */}
-          <Navbar />
+          {/* Wrap the Navbar component with Suspense */}
+          <Suspense fallback={<div>Loading...</div>}>
+            <Navbar />
+          </Suspense>
           {/* Render the children components */}
           {children}
         </body>
