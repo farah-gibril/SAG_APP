@@ -63,6 +63,7 @@ const Navbar = async () => {
                   Dashboard
                 </Link>
 
+                {/* @ts-ignore */}
                 <UserAccountNav
                   name={
                     !user.given_name || !user.family_name
