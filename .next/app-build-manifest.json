@@ -1,9 +1,16 @@
 {
   "pages": {
+<<<<<<< HEAD
     "/pricing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/pricing/page.js"
+=======
+    "/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/page.js"
+>>>>>>> 3df75378e962c72abd85a15e854fd56e098a2ca3
     ],
     "/layout": [
       "static/chunks/webpack.js",
@@ -11,6 +18,7 @@
       "static/css/app/layout.css",
       "static/chunks/app/layout.js"
     ],
+<<<<<<< HEAD
     "/dashboard/billing/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -21,6 +29,8 @@
       "static/chunks/main-app.js",
       "static/chunks/app/page.js"
     ],
+=======
+>>>>>>> 3df75378e962c72abd85a15e854fd56e098a2ca3
     "/dashboard/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -35,6 +45,19 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/enter-phone-number/page.js"
+<<<<<<< HEAD
+=======
+    ],
+    "/pricing/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/pricing/page.js"
+    ],
+    "/_not-found/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/_not-found/page.js"
+>>>>>>> 3df75378e962c72abd85a15e854fd56e098a2ca3
     ]
   }
 }

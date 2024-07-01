@@ -8,20 +8,21 @@ const Home: React.FC = () => {
   return (
     <>
       <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40 flex flex-col items-center justify-center text-center">
-        <div className="mx-auto mb-4 flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full border border-gray-200 bg-white px-7 py-2 shadow-md backdrop-blur transition-all hover:border-gray-300 hover:bg-white/50">
-          <p className="text-sm font-semibold text-gray-700">
-            Lorem ipsum dolor sit amet!
+        <div className="mx-auto mb-4 flex max-w-fit items-center justify-center space-x-2 overflow-hidden rounded-full border border-gray-200 bg-white px-20 py-8 shadow-md backdrop-blur transition-all hover:border-gray-300 hover:bg-white/50">
+          <p className="text-4xl font-semibold text-gray-700">
+            بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
           </p>
         </div>
         <h1 className="max-w-4xl text-5xl font-bold md:text-6xl lg:text-7xl">
-          Vivamus congue{' '}
-          <span className="text-blue-600">mollis lectus</span>{' '}
-          eu aliquam.
+          Somali{' '}
+          <span className="text-blue-600">Association</span>{' '}
+          Graves
         </h1>
         <p className="mt-5 max-w-prose text-zinc-700 sm:text-lg">
-          Nulla facilisi. Cras aliquet pulvinar ante, nec consectetur 
-          elit condimentum sed. Etiam facilisis orci eget sapien 
-          consectetur, et cursus felis laoreet.
+        SAG is owned by the Somali Muslim Community This Organisation was built by 
+        Somali people in late 1997 for the local Somali community. As a member of 
+        SAG you are entitled to discount on Muslim graves provided by the SAG Victoria 
+        residing in a location in Victoria 
         </p>
 
         <Link
@@ -32,7 +33,7 @@ const Home: React.FC = () => {
           href="/dashboard"
           target="_blank"
         >
-          Vestibulum ante{' '}
+          Dashboard{' '}
           <ArrowRight className="ml-2 h-5 w-5" />
         </Link>
       </MaxWidthWrapper>
@@ -53,22 +54,45 @@ const Home: React.FC = () => {
             />
           </div>
 
-          <div>
-            <div className="mx-auto max-w-6xl px-6 lg:px-8">
-              <div className="mt-16 flow-root sm:mt-24">
-                <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-                  <Image
-                    src="/dashboard-preview.jpg"
-                    alt="Lorem ipsum dolor sit amet"
-                    width={1364}
-                    height={866}
-                    quality={100}
-                    className="rounded-md bg-white p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10"
-                  />
+          <div className="mx-auto max-w-6xl px-6 lg:px-8">
+            <div className="mt-16 flow-root sm:mt-24">
+              <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
+                <div className="bg-white p-6 rounded-md shadow-md">
+                  <h2 className="text-2xl font-bold mb-4">The conditions to be a member are:</h2>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li>He/She must be of Somali origin (one parent or both must be Somali)</li>
+                    <li>Must be in a stable health condition (Don’t wait until a person is critically ill or in hospital to become a member)</li>
+                    <li>Must be a Sunni Muslim</li>
+                    <li>Must pay the Membership fee every year between the period of July - end of September. Any payments made after this period is considered late, and a late fee will be applied.</li>
+                  </ul>
+
+                  <h2 className="text-2xl font-bold mt-6 mb-4">The costs of being a member are:</h2>
+                  <ul className="list-disc list-inside space-y-2">
+                    <li>A family (father, mother, their children, and grandparents) living within the same address costs $150.</li>
+                    <li>One or two people sharing a house cost $150.</li>
+                    <li>Children not living with a family at the same address must also pay $150.</li>
+                    <li>All new members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.  **CAN WE APPLY THIS?**</li>
+                  </ul>
+
+                  <Link
+                  className={buttonVariants({
+                    size: 'lg',
+                    className: 'mt-5',
+                  })}
+                  href="/billing"
+                  target="_blank"
+                >
+                  Become a member now!{' '}
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
+
+
                 </div>
               </div>
             </div>
           </div>
+
+          
 
           <div
             aria-hidden="true"
@@ -85,83 +109,35 @@ const Home: React.FC = () => {
         </div>
       </div>
 
-      {/* Feature Section */}
-      <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-56">
-        <div className="mb-12 px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl sm:text-center">
-            <h2 className="mt-2 font-bold text-4xl text-gray-900 sm:text-5xl">
-              Praesent tristique in lorem
-            </h2>
-            <p className="mt-4 text-lg text-gray-600">
-              Morbi malesuada risus nec leo dignissim, id cursus metus vulputate.
-            </p>
-          </div>
-        </div>
+      {/* Learn About Pricing Section */}
+      <div className="mx-auto mb-32 mt-32 max-w-5xl sm:mt-15 text-center">
+        <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl">Learn About Pricing</h2>
+        <p className="mt-4 text-lg text-gray-600">
+          To learn about the pricing, press the link below:
+        </p>
+        <Link
+          className={buttonVariants({
+            size: 'lg',
+            className: 'mt-5',
+          })}
+          href="/pricing"
+        >
+          Pricing Page <ArrowRight className="ml-2 h-5 w-5" />
+        </Link>
+      </div>
 
-        {/* Steps */}
-        <ol className="my-8 space-y-4 pt-8 md:flex md:space-x-12 md:space-y-0">
-          <li className="md:flex-1">
-            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-              <span className="text-sm font-medium text-blue-600">
-                Step 1
-              </span>
-              <span className="text-xl font-semibold">
-                Lorem ipsum dolor
-              </span>
-              <span className="mt-2 text-zinc-700">
-                Curabitur vestibulum turpis at turpis aliquam, non varius sapien consectetur.{' '}
-                <Link
-                  href="/pricing"
-                  className="text-blue-700 underline underline-offset-2"
-                >
-                  Mauris gravida
-                </Link>
-                .
-              </span>
-            </div>
-          </li>
-          <li className="md:flex-1">
-            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-              <span className="text-sm font-medium text-blue-600">
-                Step 2
-              </span>
-              <span className="text-xl font-semibold">
-                Fusce vitae enim
-              </span>
-              <span className="mt-2 text-zinc-700">
-                Ut convallis, massa nec consequat cursus, ex nulla euismod leo.
-              </span>
-            </div>
-          </li>
-          <li className="md:flex-1">
-            <div className="flex flex-col space-y-2 border-l-4 border-zinc-300 py-2 pl-4 md:border-l-0 md:border-t-2 md:pb-0 md:pl-0 md:pt-4">
-              <span className="text-sm font-medium text-blue-600">
-                Step 3
-              </span>
-              <span className="text-xl font-semibold">
-                Proin et augue
-              </span>
-              <span className="mt-2 text-zinc-700">
-                Nulla facilisi. Donec et sapien in velit faucibus hendrerit.
-              </span>
-            </div>
-          </li>
-        </ol>
-
-        <div className="mx-auto max-w-6xl px-6 lg:px-8">
-          <div className="mt-16 flow-root sm:mt-24">
-            <div className="-m-2 rounded-xl bg-gray-900/5 p-2 ring-1 ring-inset ring-gray-900/10 lg:-m-4 lg:rounded-2xl lg:p-4">
-              <Image
-                src="/file-upload-preview.jpg"
-                alt="Sed non metus"
-                width={1419}
-                height={732}
-                quality={100}
-                className="rounded-md bg-white p-2 sm:p-8 md:p-20 shadow-2xl ring-1 ring-gray-900/10"
-              />
-            </div>
-          </div>
-        </div>
+      {/* Contact Section */}
+      <div className="mx-auto max-w-5xl mb-32 sm:mt-55 text-center">
+        <h2 className="text-4xl font-bold text-gray-900 sm:text-5xl">Contact Us</h2>
+        <p className="mt-4 text-2xl text-gray-600">
+          For any further inquiries please contact SAG with the numbers below:
+        </p>
+        <ul className="mt-4 space-y-2 text-2xl text-gray-700">
+          <li>Abdifitah Ahmed Hashi: 0411 303 932</li>
+          <li>Abukar Haji Abow: 0423 377 967</li>
+          <li>Hassan Ali Hassan: 0402 416 442</li>
+          <li>Hassan Farah Gibril: 0431 551 353</li>
+        </ul>
       </div>
     </>
   );
