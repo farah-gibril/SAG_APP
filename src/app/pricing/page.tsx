@@ -1,13 +1,17 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper'
-import { buttonVariants } from '@/components/ui/button'
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip'
-import Link from 'next/link'
-import { ArrowRight, Check, HelpCircle } from 'lucide-react'
+import { Check, HelpCircle } from 'lucide-react'
 import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import UpgradeButton from '@/components/UpgradeButton'
+import Link from 'next/link'
+import { buttonVariants } from '@/components/ui/button'
 
 const Page = async () => {
   const { getUser } = getKindeServerSession()
   const user = await getUser()
+
+  console.log('User in pricing page:', user)
+
 
   const pricingItem = {
     plan: 'Pro',
@@ -100,15 +104,18 @@ const Page = async () => {
 
               <div className='border-t border-gray-200' />
               <div className='p-5'>
-                <Link
-                  href={user ? '/dashboard' : '/sign-in'}
-                  className={buttonVariants({
-                    className: 'w-full',
-                    variant: 'secondary',
-                  })}>
-                  {user ? 'Upgrade now' : 'Sign up'}
-                  <ArrowRight className='h-5 w-5 ml-1.5' />
-                </Link>
+                {user ? (
+                  <UpgradeButton />
+                ) : (
+                  <Link
+                    href='/sign-in'
+                    className={buttonVariants({
+                      className: 'w-full',
+                      variant: 'secondary',
+                    })}>
+                    Sign up
+                  </Link>
+                )}
               </div>
             </div>
           </TooltipProvider>

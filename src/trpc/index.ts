@@ -1,18 +1,12 @@
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
-import {
-  privateProcedure,
-  publicProcedure,
-  router,
-} from './trpc'
-import { TRPCError } from '@trpc/server'
-import { db } from '@/db'
-import { z } from 'zod'
-import { absoluteUrl } from '@/lib/utils'
-import {
-  getUserSubscriptionPlan,
-  stripe,
-} from '@/lib/stripe'
-import { PLANS } from '@/config/stripe'
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import { privateProcedure, publicProcedure, router } from './trpc';
+import { TRPCError } from '@trpc/server';
+import { db } from '@/db';
+import { z } from 'zod';
+import { absoluteUrl } from '@/lib/utils';
+import { getUserSubscriptionPlan, stripe } from '@/lib/stripe';
+import { PLANS } from '@/config/stripe';
+
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
     try {
@@ -59,79 +53,78 @@ export const appRouter = router({
     }
   }),
 
-  createStripeSession: privateProcedure.mutation(
-    async ({ ctx }) => {
-      const { userId } = ctx
-
-      const billingUrl = absoluteUrl('/dashboard/billing')
-
-      if (!userId)
-        throw new TRPCError({ code: 'UNAUTHORIZED' })
-
+  createStripeSession: privateProcedure.mutation(async ({ ctx }) => {
+    const { userId } = ctx;
+  
+    console.log('Creating Stripe session for user:', userId);
+  
+    try {
+      const billingUrl = absoluteUrl('/dashboard/billing');
+  
+      if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
+  
       const dbUser = await db.user.findFirst({
         where: {
           id: userId,
         },
-      })
-
-      if (!dbUser)
-        throw new TRPCError({ code: 'UNAUTHORIZED' })
-
-      const subscriptionPlan =
-        await getUserSubscriptionPlan()
-
-      if (
-        subscriptionPlan.isSubscribed &&
-        dbUser.stripeCustomerId
-      ) {
-        const stripeSession =
-          await stripe.billingPortal.sessions.create({
-            customer: dbUser.stripeCustomerId,
-            return_url: billingUrl,
-          })
-
-        return { url: stripeSession.url }
+      });
+  
+      if (!dbUser) throw new TRPCError({ code: 'UNAUTHORIZED' });
+  
+      const subscriptionPlan = await getUserSubscriptionPlan();
+  
+      if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+        const stripeSession = await stripe.billingPortal.sessions.create({
+          customer: dbUser.stripeCustomerId,
+          return_url: billingUrl,
+        });
+  
+        console.log('Billing portal session created. URL:', stripeSession.url);
+        return { url: stripeSession.url };
       }
-
-      const stripeSession =
-        await stripe.checkout.sessions.create({
-          success_url: billingUrl,
-          cancel_url: billingUrl,
-          payment_method_types: ['card', 'paypal'],
-          mode: 'subscription',
-          billing_address_collection: 'auto',
-          line_items: [
-            {
-              price: PLANS.find(
-                (plan) => plan.name === 'Pro'
-              )?.price.priceIds.test,
-              quantity: 1,
-            },
-          ],
-          metadata: {
-            userId: userId,
+  
+      const stripeSession = await stripe.checkout.sessions.create({
+        success_url: billingUrl,
+        cancel_url: billingUrl,
+        payment_method_types: ['card'], // Remove 'paypal'
+        mode: 'payment', // Change to 'payment' mode for one-off payments
+        billing_address_collection: 'auto',
+        line_items: [
+          {
+            price: PLANS.find((plan) => plan.name === 'Membership 200')?.price.priceIds.test,
+            quantity: 1,
           },
-        })
-
-      return { url: stripeSession.url }
+        ],
+        metadata: {
+          userId: userId,
+        },
+      });
+  
+      console.log('Stripe checkout session created. URL:', stripeSession.url);
+      return { url: stripeSession.url };
+    } catch (error) {
+      console.error('Error creating Stripe session:', error);
+      throw new TRPCError({
+        code: 'INTERNAL_SERVER_ERROR',
+        message: 'An error occurred while creating the Stripe session',
+      });
     }
-  ),
+  }),
 
   updatePhoneNumber: publicProcedure
-.input(z.object({ userId: z.string(), phoneNumber: z.string() }))
-.mutation(async ({ input }) => {
-  const { userId, phoneNumber } = input;
+    .input(z.object({ userId: z.string(), phoneNumber: z.string() }))
+    .mutation(async ({ input }) => {
+      const { userId, phoneNumber } = input;
 
-  console.log('Updating phone number for user:', userId);
-  await db.user.update({
-    where: { id: userId },
-    data: { phoneNumber },
-  });
+      console.log('Updating phone number for user:', userId);
+      await db.user.update({
+        where: { id: userId },
+        data: { phoneNumber },
+      });
 
-  console.log('Phone number updated successfully');
-  return { success: true };
-}),
+      console.log('Phone number updated successfully');
+      return { success: true };
+    }),
+});
 
-})
-
-export type AppRouter = typeof appRouter
+export type AppRouter = typeof appRouter;
