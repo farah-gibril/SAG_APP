@@ -14,7 +14,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
 
   useEffect(() => {
     if (isOpen) toggleOpen()
-  }, [pathname, isOpen]) // Include 'isOpen' in the dependency array
+  }, [pathname])
 
   const closeOnCurrent = (href: string) => {
     if (pathname === href) {
@@ -36,7 +36,9 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
               <>
                 <li>
                   <Link
-                    onClick={() => closeOnCurrent('/sign-up')}
+                    onClick={() =>
+                      closeOnCurrent('/sign-up')
+                    }
                     className='flex items-center w-full font-semibold text-green-600'
                     href='/sign-up'>
                     Get started
@@ -46,7 +48,9 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
                   <Link
-                    onClick={() => closeOnCurrent('/sign-in')}
+                    onClick={() =>
+                      closeOnCurrent('/sign-in')
+                    }
                     className='flex items-center w-full font-semibold'
                     href='/sign-in'>
                     Sign in
@@ -55,7 +59,9 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
                   <Link
-                    onClick={() => closeOnCurrent('/pricing')}
+                    onClick={() =>
+                      closeOnCurrent('/pricing')
+                    }
                     className='flex items-center w-full font-semibold'
                     href='/pricing'>
                     Pricing
@@ -66,7 +72,9 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
               <>
                 <li>
                   <Link
-                    onClick={() => closeOnCurrent('/dashboard')}
+                    onClick={() =>
+                      closeOnCurrent('/dashboard')
+                    }
                     className='flex items-center w-full font-semibold'
                     href='/dashboard'>
                     Dashboard
