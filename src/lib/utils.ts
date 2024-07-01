@@ -7,13 +7,9 @@ export function cn(...inputs: ClassValue[]) {
 }
 
 export function absoluteUrl(path: string) {
-  if (typeof window !== 'undefined') return path
-  if (process.env.VERCEL_URL)
-    return `https://${process.env.VERCEL_URL}${path}`
-  return `http://localhost:${
-    process.env.PORT ?? 3000
-  }${path}`
+  return `https://sag-app-pi.vercel.app${path}`;
 }
+
 
 export function constructMetadata({
   title = "SAG - Somali Graves Association",
@@ -48,7 +44,7 @@ export function constructMetadata({
       creator: "x"
     },
     icons,
-    metadataBase: new URL('https://sag-app-pi.vercel.app/'),
+    metadataBase: new URL('https://sag-app-pi.vercel.app'),
     // themeColor: '#FFF',
     ...(noIndex && {
       robots: {
