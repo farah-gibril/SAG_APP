@@ -63,21 +63,29 @@ export const appRouter = router({
       try {
         const billingUrl = absoluteUrl('/dashboard/billing');
 
-        if (!userId) throw new TRPCError({ code: 'UNAUTHORIZED' });
+        if (!userId) {
+          console.error('Unauthorized: userId is missing');
+          throw new TRPCError({ code: 'UNAUTHORIZED' });
+        }
 
+        console.log('Fetching user from the database with userId:', userId);
         const dbUser = await db.user.findFirst({
           where: {
             id: userId,
           },
         });
 
-        if (!dbUser) throw new TRPCError({ code: 'UNAUTHORIZED' });
+        if (!dbUser) {
+          console.error('Unauthorized: User not found in the database');
+          throw new TRPCError({ code: 'UNAUTHORIZED' });
+        }
 
+        console.log('Creating Stripe checkout session with priceId:', priceId);
         const stripeSession = await stripe.checkout.sessions.create({
           success_url: billingUrl,
           cancel_url: billingUrl,
           payment_method_types: ['card'],
-          mode: 'payment', // Change to 'payment' mode for one-off payments
+          mode: 'payment',
           billing_address_collection: 'auto',
           line_items: [
             {
@@ -94,6 +102,10 @@ export const appRouter = router({
         return { url: stripeSession.url };
       } catch (error) {
         console.error('Error creating Stripe session:', error);
+        if (error instanceof Error) {
+          console.error('Error details:', error.message);
+          console.error('Error stack trace:', error.stack);
+        }
         throw new TRPCError({
           code: 'INTERNAL_SERVER_ERROR',
           message: 'An error occurred while creating the Stripe session',
