@@ -1,5 +1,10 @@
 {
-  "/enter-phone-number/page": "app/enter-phone-number/page.js",
+  "/_not-found/page": "app/_not-found/page.js",
+  "/page": "app/page.js",
+  "/auth-callback/page": "app/auth-callback/page.js",
   "/dashboard/page": "app/dashboard/page.js",
-  "/page": "app/page.js"
+  "/enter-phone-number/page": "app/enter-phone-number/page.js",
+  "/api/auth/[kindeAuth]/route": "app/api/auth/[kindeAuth]/route.js",
+  "/api/trpc/[trpc]/route": "app/api/trpc/[trpc]/route.js",
+  "/pricing/page": "app/pricing/page.js"
 }
