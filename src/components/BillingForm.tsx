@@ -71,12 +71,6 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
           </CardContent>
 
           <CardFooter className='flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0'>
-            <Button type='submit' disabled={isPending}>
-              {isPending ? (
-                <Loader2 className='mr-4 h-4 w-4 animate-spin' />
-              ) : null}
-              Make a Payment
-            </Button>
 
             {subscriptionPlan.isSubscribed && (
               <p className='rounded-full text-xs font-medium'>
