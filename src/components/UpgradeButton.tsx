@@ -4,7 +4,7 @@ import { ArrowRight } from 'lucide-react';
 import { Button } from './ui/button';
 import { trpc } from '@/app/_trpc/client';
 
-const UpgradeButton = ({ priceId }: { priceId: string }) => {
+const UpgradeButton = ({ planSlug }: { planSlug: string }) => {
   const { mutate: createStripeSession } = trpc.createStripeSession.useMutation({
     onSuccess: ({ url }) => {
       console.log('Stripe session created successfully. URL:', url);
@@ -19,8 +19,8 @@ const UpgradeButton = ({ priceId }: { priceId: string }) => {
 
   return (
     <Button onClick={() => {
-      console.log('Upgrade button clicked with priceId:', priceId);
-      createStripeSession();
+      console.log('Upgrade button clicked with planSlug:', planSlug);
+      createStripeSession({ planSlug });
     }} className='w-full'>
       Upgrade now <ArrowRight className='h-5 w-5 ml-1.5' />
     </Button>

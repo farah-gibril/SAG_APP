@@ -4,10 +4,7 @@ import { TRPCError } from '@trpc/server';
 import { db } from '@/db';
 import { z } from 'zod';
 import { absoluteUrl } from '@/lib/utils';
-import {
-  getUserSubscriptionPlan,
-  stripe,
-} from '@/lib/stripe'
+import { getUserSubscriptionPlan, stripe } from '@/lib/stripe';
 import { PLANS } from '@/config/stripe';
 
 export const appRouter = router({
@@ -39,8 +36,10 @@ export const appRouter = router({
     return { success: true, userId: user.id };
   }),
 
-  createStripeSession: privateProcedure.mutation(
-    async ({ ctx }) => {
+  createStripeSession: privateProcedure
+    .input(z.object({ planSlug: z.string() }))
+    .mutation(async ({ input, ctx }) => {
+      const { planSlug } = input;
       const { userId } = ctx;
 
       if (!userId) {
@@ -67,17 +66,24 @@ export const appRouter = router({
         return { url: stripeSession.url };
       }
 
-      const priceId = PLANS.find(plan => plan.slug === 'membership-200')?.price.priceIds.test;
+      const plan = PLANS.find(plan => plan.slug === planSlug);
+      if (!plan) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Plan not found' });
+      }
+
+      const priceId = process.env.NODE_ENV === 'production'
+        ? plan.price.priceIds.production
+        : plan.price.priceIds.test;
 
       if (!priceId) {
-        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Price ID not found' });
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `No price ID found for plan: ${planSlug}` });
       }
 
       const stripeSession = await stripe.checkout.sessions.create({
         success_url: billingUrl,
         cancel_url: billingUrl,
         payment_method_types: ['card'],
-        mode: 'payment',
+        mode: 'subscription',
         billing_address_collection: 'auto',
         line_items: [
           {
@@ -91,8 +97,7 @@ export const appRouter = router({
       });
 
       return { url: stripeSession.url };
-    }
-  ),
+    }),
 
   updatePhoneNumber: publicProcedure
     .input(z.object({ userId: z.string(), phoneNumber: z.string() }))

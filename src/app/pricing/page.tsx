@@ -36,18 +36,6 @@ const Page = async () => {
     },
   ];
 
-  const getPriceId = (slug: string): string => {
-    const plan = PLANS.find(plan => plan.slug === slug);
-    if (!plan) {
-      throw new Error(`No plan found for slug: ${slug}`);
-    }
-    const priceId = process.env.NODE_ENV === 'production' ? plan.price.priceIds.production : plan.price.priceIds.test;
-    if (!priceId) {
-      throw new Error(`No price ID found for plan: ${slug}`);
-    }
-    return priceId;
-  };
-
   return (
     <>
       <MaxWidthWrapper className='mb-8 mt-24 text-center max-w-5xl'>
@@ -87,7 +75,7 @@ const Page = async () => {
                 <div className='border-t border-gray-200' />
                 <div className='p-5'>
                   {user ? (
-                    <UpgradeButton priceId={getPriceId(item.slug)} />
+                    <UpgradeButton planSlug={item.slug} />
                   ) : (
                     <Link
                       href='/sign-in'

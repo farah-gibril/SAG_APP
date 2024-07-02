@@ -15,6 +15,7 @@ import {
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { PLANS } from '@/config/stripe';
 
 interface BillingFormProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>;
@@ -37,21 +38,21 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
       },
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
-      e.preventDefault();
-      if (!subscriptionPlan.price) {
-        toast({
-          title: 'Error',
-          description: 'No price information available for the selected plan',
-          variant: 'destructive',
-        });
-        return;
-      }
-      const priceId = process.env.NODE_ENV === 'production'
-        ? subscriptionPlan.price.priceIds.production
-        : subscriptionPlan.price.priceIds.test;
-      createStripeSession();
-    };
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subscriptionPlan.price || !subscriptionPlan.slug) {
+      toast({
+        title: 'Error',
+        description: 'No price information available for the selected plan',
+        variant: 'destructive',
+      });
+      return;
+    }
+    const priceId = process.env.NODE_ENV === 'production'
+      ? subscriptionPlan.price.priceIds.production
+      : subscriptionPlan.price.priceIds.test;
+    createStripeSession({ planSlug: subscriptionPlan.slug });
+  };
 
   return (
     <MaxWidthWrapper className='max-w-5xl'>
@@ -76,7 +77,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
               ) : null}
               {subscriptionPlan.isSubscribed
                 ? 'Change Subscription'
-                : 'Upgrade to PRO'}
+                : 'Upgrade Subscription'}
             </Button>
 
             {subscriptionPlan.isSubscribed ? (
