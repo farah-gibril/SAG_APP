@@ -4,7 +4,11 @@ import { TRPCError } from '@trpc/server';
 import { db } from '@/db';
 import { z } from 'zod';
 import { absoluteUrl } from '@/lib/utils';
-import { stripe } from '@/lib/stripe';
+import {
+  getUserSubscriptionPlan,
+  stripe,
+} from '@/lib/stripe'
+import { PLANS } from '@/config/stripe';
 
 export const appRouter = router({
   authCallback: publicProcedure.query(async () => {
@@ -35,10 +39,8 @@ export const appRouter = router({
     return { success: true, userId: user.id };
   }),
 
-  createStripeSession: privateProcedure
-    .input(z.object({ priceId: z.string() }))
-    .mutation(async ({ input, ctx }) => {
-      const { priceId } = input;
+  createStripeSession: privateProcedure.mutation(
+    async ({ ctx }) => {
       const { userId } = ctx;
 
       if (!userId) {
@@ -53,12 +55,27 @@ export const appRouter = router({
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found in database' });
       }
 
-      const successUrl = absoluteUrl('/dashboard/billing');
-      const cancelUrl = absoluteUrl('/pricing');
+      const subscriptionPlan = await getUserSubscriptionPlan();
+      const billingUrl = absoluteUrl('/dashboard/billing');
+
+      if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
+        const stripeSession = await stripe.billingPortal.sessions.create({
+          customer: dbUser.stripeCustomerId,
+          return_url: billingUrl,
+        });
+
+        return { url: stripeSession.url };
+      }
+
+      const priceId = PLANS.find(plan => plan.slug === 'membership-200')?.price.priceIds.test;
+
+      if (!priceId) {
+        throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: 'Price ID not found' });
+      }
 
       const stripeSession = await stripe.checkout.sessions.create({
-        success_url: successUrl,
-        cancel_url: cancelUrl,
+        success_url: billingUrl,
+        cancel_url: billingUrl,
         payment_method_types: ['card'],
         mode: 'payment',
         billing_address_collection: 'auto',
@@ -74,7 +91,8 @@ export const appRouter = router({
       });
 
       return { url: stripeSession.url };
-    }),
+    }
+  ),
 
   updatePhoneNumber: publicProcedure
     .input(z.object({ userId: z.string(), phoneNumber: z.string() }))

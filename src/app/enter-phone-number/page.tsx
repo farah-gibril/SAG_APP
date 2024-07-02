@@ -1,4 +1,3 @@
-// src/app/enter-phone-number/page.tsx
 import React, { Suspense } from 'react';
 import EnterPhoneNumber from '@/components/EnterPhoneNumber';
 

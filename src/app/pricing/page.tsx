@@ -5,6 +5,7 @@ import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import UpgradeButton from '@/components/UpgradeButton';
 import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
+import { PLANS } from '@/config/stripe';
 
 const Page = async () => {
   const { getUser } = getKindeServerSession();
@@ -20,7 +21,7 @@ const Page = async () => {
         'Admin fee: $50',
         'Total: $200',
       ],
-      priceId: 'price_1PXOTMGnUCJjsBpAOWvpjX7P',
+      slug: 'membership-200',
     },
     {
       plan: 'Standard Pricing (for existing members)',
@@ -31,9 +32,21 @@ const Page = async () => {
         'One or two people sharing a house cost $150.',
         'Children not living with a family at the same address must also pay $150.',
       ],
-      priceId: 'price_1PXOTMGnUCJjsBpAFOaVNSut',
+      slug: 'membership-150',
     },
   ];
+
+  const getPriceId = (slug: string): string => {
+    const plan = PLANS.find(plan => plan.slug === slug);
+    if (!plan) {
+      throw new Error(`No plan found for slug: ${slug}`);
+    }
+    const priceId = process.env.NODE_ENV === 'production' ? plan.price.priceIds.production : plan.price.priceIds.test;
+    if (!priceId) {
+      throw new Error(`No price ID found for plan: ${slug}`);
+    }
+    return priceId;
+  };
 
   return (
     <>
@@ -74,7 +87,7 @@ const Page = async () => {
                 <div className='border-t border-gray-200' />
                 <div className='p-5'>
                   {user ? (
-                    <UpgradeButton priceId={item.priceId} />
+                    <UpgradeButton priceId={getPriceId(item.slug)} />
                   ) : (
                     <Link
                       href='/sign-in'
