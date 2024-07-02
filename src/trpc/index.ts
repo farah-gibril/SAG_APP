@@ -73,7 +73,15 @@ export const appRouter = router({
 
       console.log(`Creating Stripe session with price ID: ${priceId} for environment: ${process.env.NODE_ENV}`);
 
+      const stripeCustomer = await stripe.customers.create({
+        email: dbUser.email,
+        metadata: {
+          userId: dbUser.id,
+        },
+      });
+
       const stripeSession = await stripe.checkout.sessions.create({
+        customer: stripeCustomer.id,
         success_url: billingUrl,
         cancel_url: billingUrl,
         payment_method_types: ['card'],

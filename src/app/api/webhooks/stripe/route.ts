@@ -32,14 +32,10 @@ export async function POST(request: Request) {
 
   if (event.type === 'checkout.session.completed') {
     try {
-      // Retrieve the payment intent to get the customer ID
-      const paymentIntent = await stripe.paymentIntents.retrieve(
-        session.payment_intent as string
-      );
+      const stripeCustomer = session.customer as string;
 
-      // Ensure that the customer ID is available
-      if (!paymentIntent.customer) {
-        console.error('Customer ID missing in payment intent');
+      if (!stripeCustomer) {
+        console.error('Customer ID missing in session');
         return new Response(null, { status: 200 });
       }
 
@@ -56,12 +52,12 @@ export async function POST(request: Request) {
           id: session.metadata.userId,
         },
         data: {
-          stripeCustomerId: paymentIntent.customer as string,
+          stripeCustomerId: stripeCustomer,
           stripePriceId: amountTotal.toString(),
         },
       });
 
-      console.log(`User ${session.metadata.userId} updated with customer ID ${paymentIntent.customer}`);
+      console.log(`User ${session.metadata.userId} updated with customer ID ${stripeCustomer}`);
     } catch (err) {
       console.error('Error updating user in database:', err);
       return new Response('Internal Server Error', { status: 500 });
