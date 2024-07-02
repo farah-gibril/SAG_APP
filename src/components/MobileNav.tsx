@@ -120,5 +120,3 @@ const MobileNav = ({ isAuth, isSubscribed }: MobileNavProps) => {
 }
 
 export default MobileNav
-
-// 
