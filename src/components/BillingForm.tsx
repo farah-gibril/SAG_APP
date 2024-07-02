@@ -63,7 +63,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
           <CardContent>
             <p>Plan Quota: {subscriptionPlan.quota}</p>
             {subscriptionPlan.stripeAmountPaid && (
-              <p>Amount Paid: ${(subscriptionPlan.stripeAmountPaid / 100).toFixed(2)}</p>
+              <p>Amount Paid: ${(+subscriptionPlan.stripeAmountPaid / 100).toFixed(2)}</p> // Convert string to number
             )}
             {subscriptionPlan.stripePriceId && (
               <p>Price ID: {subscriptionPlan.stripePriceId}</p>
