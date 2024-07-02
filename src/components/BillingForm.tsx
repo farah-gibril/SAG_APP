@@ -15,6 +15,7 @@ import {
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
 import { format } from 'date-fns';
+import { PLANS } from '@/config/stripe';
 
 interface BillingFormProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>;
@@ -37,61 +38,56 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
       },
     });
 
-  const handleManageSubscription = () => {
-    if (!subscriptionPlan.slug) {
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!subscriptionPlan.price || !subscriptionPlan.slug) {
       toast({
         title: 'Error',
-        description: 'Plan slug is missing',
+        description: 'No price information available for the selected plan',
         variant: 'destructive',
       });
       return;
     }
-
+    const priceId = process.env.NODE_ENV === 'production'
+      ? subscriptionPlan.price.priceIds.production
+      : subscriptionPlan.price.priceIds.test;
     createStripeSession({ planSlug: subscriptionPlan.slug });
   };
 
   return (
     <MaxWidthWrapper className='max-w-5xl'>
-      <Card>
-        <CardHeader>
-          <CardTitle>Payment Status</CardTitle>
-          <CardDescription>
-            {subscriptionPlan.isSubscribed
-              ? `You have paid for the ${subscriptionPlan.name} plan.`
-              : 'You have not made any payments yet.'}
-          </CardDescription>
-        </CardHeader>
+      <form className='mt-12' onSubmit={handleSubmit}>
+        <Card>
+          <CardHeader>
+            <CardTitle>Subscription Plan</CardTitle>
+            <CardDescription>
+              You are currently on the <strong>{subscriptionPlan.name}</strong> plan.
+            </CardDescription>
+          </CardHeader>
 
-        <CardContent>
-          <p>Plan Quota: {subscriptionPlan.quota}</p>
-        </CardContent>
+          <CardContent>
+            {/* Displaying subscription details */}
+            <p>Plan Quota: {subscriptionPlan.quota}</p>
+          </CardContent>
 
-        <CardFooter className='flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0'>
-          {subscriptionPlan.isSubscribed ? (
-            <>
-              <Button onClick={handleManageSubscription} disabled={isPending}>
-                {isPending ? (
-                  <Loader2 className='mr-4 h-4 w-4 animate-spin' />
-                ) : null}
-                Manage Subscription
-              </Button>
-              <p className='rounded-full text-xs font-medium'>
-                {subscriptionPlan.isCanceled
-                  ? 'Your plan will be canceled on '
-                  : 'Your plan renews on '}
-                {format(subscriptionPlan.stripeCurrentPeriodEnd!, 'dd.MM.yyyy')}.
-              </p>
-            </>
-          ) : (
-            <Button onClick={handleManageSubscription} disabled={isPending}>
+          <CardFooter className='flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0'>
+            <Button type='submit' disabled={isPending}>
               {isPending ? (
                 <Loader2 className='mr-4 h-4 w-4 animate-spin' />
               ) : null}
-              Make a Payment
+              {subscriptionPlan.isSubscribed
+                ? 'Manage Subscription'
+                : 'Make a Payment'}
             </Button>
-          )}
-        </CardFooter>
-      </Card>
+
+            {subscriptionPlan.isSubscribed && (
+              <p className='rounded-full text-xs font-medium'>
+                Subscription is active.
+              </p>
+            )}
+          </CardFooter>
+        </Card>
+      </form>
     </MaxWidthWrapper>
   );
 };
