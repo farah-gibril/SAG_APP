@@ -76,8 +76,12 @@ export const appRouter = router({
         : plan.price.priceIds.test;
 
       if (!priceId) {
+        console.error(`No price ID found for plan: ${planSlug}. NODE_ENV: ${process.env.NODE_ENV}`);
+        console.error(`Available price IDs: ${JSON.stringify(plan.price.priceIds)}`);
         throw new TRPCError({ code: 'INTERNAL_SERVER_ERROR', message: `No price ID found for plan: ${planSlug}` });
       }
+
+      console.log(`Creating Stripe session with price ID: ${priceId} for environment: ${process.env.NODE_ENV}`);
 
       const stripeSession = await stripe.checkout.sessions.create({
         success_url: billingUrl,
@@ -114,3 +118,4 @@ export const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
+
