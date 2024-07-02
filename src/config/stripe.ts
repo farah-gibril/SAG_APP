@@ -5,8 +5,8 @@ export const PLANS = [
     quota: 200,
     price: {
       priceIds: {
-        test: 'price_1PY16DGnUCJjsBpA9qF3rpKb',
-        production: 'price_1PY16DGnUCJjsBpA9qF3rpKb',
+        test: 'price_1PXOTMGnUCJjsBpAOWvpjX7P',
+        production: 'price_1PXOTMGnUCJjsBpAOWvpjX7P',
       },
     },
   },
@@ -16,8 +16,8 @@ export const PLANS = [
     quota: 150,
     price: {
       priceIds: {
-        test: 'price_1PY16DGnUCJjsBpAvO26HkyP',
-        production: 'price_1PY16DGnUCJjsBpAvO26HkyP',
+        test: 'price_1PXOTMGnUCJjsBpAFOaVNSut',
+        production: 'price_1PXOTMGnUCJjsBpAFOaVNSut',
       },
     },
   },
