@@ -63,7 +63,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
           <CardContent>
             <p>Plan Quota: {subscriptionPlan.quota}</p>
             {subscriptionPlan.stripeAmountPaid && (
-              <p>Amount Paid: ${(+subscriptionPlan.stripeAmountPaid / 100).toFixed(2)}</p> // Convert string to number
+              <p>Amount Paid: ${subscriptionPlan.stripeAmountPaid}</p>
             )}
             {subscriptionPlan.stripePriceId && (
               <p>Price ID: {subscriptionPlan.stripePriceId}</p>
@@ -75,9 +75,7 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
               {isPending ? (
                 <Loader2 className='mr-4 h-4 w-4 animate-spin' />
               ) : null}
-              {subscriptionPlan.isSubscribed
-                ? 'Manage Subscription'
-                : 'Make a Payment'}
+              Make a Payment
             </Button>
 
             {subscriptionPlan.isSubscribed && (
