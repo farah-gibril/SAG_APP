@@ -83,7 +83,7 @@ export const appRouter = router({
         success_url: billingUrl,
         cancel_url: billingUrl,
         payment_method_types: ['card'],
-        mode: 'subscription',
+        mode: 'payment',
         billing_address_collection: 'auto',
         line_items: [
           {
