@@ -54,17 +54,7 @@ export const appRouter = router({
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found in database' });
       }
 
-      const subscriptionPlan = await getUserSubscriptionPlan();
       const billingUrl = absoluteUrl('/dashboard/billing');
-
-      if (subscriptionPlan.isSubscribed && dbUser.stripeCustomerId) {
-        const stripeSession = await stripe.billingPortal.sessions.create({
-          customer: dbUser.stripeCustomerId,
-          return_url: billingUrl,
-        });
-
-        return { url: stripeSession.url };
-      }
 
       const plan = PLANS.find(plan => plan.slug === planSlug);
       if (!plan) {
@@ -118,4 +108,3 @@ export const appRouter = router({
 });
 
 export type AppRouter = typeof appRouter;
-
