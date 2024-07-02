@@ -8,9 +8,7 @@ interface PageProps {
   user: {
     id: string;
     email: string;
-    stripeSubscriptionId: string | null;
     stripePriceId: string | null;
-    stripeCurrentPeriodEnd: Date | null;
     firstName: string | null;
     lastName: string | null;
     phoneNumber: string | null;
@@ -66,17 +64,6 @@ const Dashboard = ({ user }: PageProps) => {
                   </dt>
                   <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                     {user.stripePriceId || 'N/A'}
-                  </dd>
-                </div>
-                <div className="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
-                  <dt className="flex items-center text-sm font-medium text-gray-500">
-                    <FiCalendar className="h-5 w-5 mr-2" />
-                    Subscription End Date
-                  </dt>
-                  <dd className="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                    {user.stripeCurrentPeriodEnd
-                      ? format(new Date(user.stripeCurrentPeriodEnd), 'MMMM d, yyyy')
-                      : 'N/A'}
                   </dd>
                 </div>
               </dl>
