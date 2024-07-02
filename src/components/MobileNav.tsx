@@ -1,12 +1,18 @@
 'use client'
 
-import { ArrowRight, Menu } from 'lucide-react'
+import { ArrowRight, Menu, Gem } from 'lucide-react'
 import Link from 'next/link'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
-const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
+interface MobileNavProps {
+  isAuth: boolean;
+  isSubscribed: boolean;
+}
+
+const MobileNav = ({ isAuth, isSubscribed }: MobileNavProps) => {
   const [isOpen, setOpen] = useState<boolean>(false)
+  const router = useRouter()
 
   const toggleOpen = () => setOpen((prev) => !prev)
 
@@ -20,6 +26,10 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
     if (pathname === href) {
       toggleOpen()
     }
+  }
+
+  const handleLogout = () => {
+    router.push('/api/auth/logout')
   }
 
   return (
@@ -36,9 +46,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
               <>
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/sign-up')
-                    }
+                    onClick={() => closeOnCurrent('/sign-up')}
                     className='flex items-center w-full font-semibold text-green-600'
                     href='/sign-up'>
                     Get started
@@ -48,9 +56,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/sign-in')
-                    }
+                    onClick={() => closeOnCurrent('/sign-in')}
                     className='flex items-center w-full font-semibold'
                     href='/sign-in'>
                     Sign in
@@ -59,9 +65,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/pricing')
-                    }
+                    onClick={() => closeOnCurrent('/pricing')}
                     className='flex items-center w-full font-semibold'
                     href='/pricing'>
                     Pricing
@@ -72,9 +76,7 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
               <>
                 <li>
                   <Link
-                    onClick={() =>
-                      closeOnCurrent('/dashboard')
-                    }
+                    onClick={() => closeOnCurrent('/dashboard')}
                     className='flex items-center w-full font-semibold'
                     href='/dashboard'>
                     Dashboard
@@ -82,11 +84,31 @@ const MobileNav = ({ isAuth }: { isAuth: boolean }) => {
                 </li>
                 <li className='my-3 h-px w-full bg-gray-300' />
                 <li>
-                  <Link
+                  {isSubscribed ? (
+                    <Link
+                      onClick={() => closeOnCurrent('/dashboard/billing')}
+                      className='flex items-center w-full font-semibold'
+                      href='/dashboard/billing'>
+                      Manage Subscription
+                    </Link>
+                  ) : (
+                    <Link
+                      onClick={() => closeOnCurrent('/pricing')}
+                      className='flex items-center w-full font-semibold'
+                      href='/pricing'>
+                      Upgrade{' '}
+                      <Gem className='text-blue-600 h-4 w-4 ml-1.5' />
+                    </Link>
+                  )}
+                </li>
+                <li className='my-3 h-px w-full bg-gray-300' />
+                <li>
+                  <button
+                    onClick={handleLogout}
                     className='flex items-center w-full font-semibold'
-                    href='/sign-out'>
+                  >
                     Sign out
-                  </Link>
+                  </button>
                 </li>
               </>
             )}

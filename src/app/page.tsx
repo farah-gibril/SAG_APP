@@ -1,10 +1,14 @@
+/* eslint-disable react/no-unescaped-entities */
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
 import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 import { buttonVariants } from '@/components/ui/button';
-import { RegisterLink } from '@kinde-oss/kinde-auth-nextjs/server';
+import { RegisterLink, getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 
-const Home: React.FC = () => {
+const Home = async () => {
+  const { getUser } = getKindeServerSession();
+  const user = await getUser();
+
   return (
     <>
       <MaxWidthWrapper className="mb-12 mt-28 sm:mt-40 flex flex-col items-center justify-center text-center">
@@ -46,7 +50,7 @@ const Home: React.FC = () => {
                   <h2 className="text-2xl font-bold mb-4">The conditions to be a member are:</h2>
                   <ul className="list-disc list-inside space-y-2">
                     <li>He/She must be of Somali origin (one parent or both must be Somali)</li>
-                    <li>Must be in a stable health condition (Don’t wait until a person is critically ill or in hospital to become a member)</li>
+                    <li>Must be in a stable health condition (Don't wait until a person is critically ill or in hospital to become a member)</li>
                     <li>Must be a Sunni Muslim</li>
                     <li>Must pay the Membership fee every year between the period of July - end of September. Any payments made after this period are considered late, and a late fee will be applied.</li>
                   </ul>
@@ -59,15 +63,28 @@ const Home: React.FC = () => {
                     <li>All new members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.  **CAN WE APPLY THIS?**</li>
                   </ul>
 
-                  <RegisterLink
-                    className={buttonVariants({
-                      size: 'lg',
-                      className: 'mt-5',
-                    })}
-                  >
-                    Become a member now!{' '}
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </RegisterLink>
+                  {!user ? (
+                    <RegisterLink
+                      className={buttonVariants({
+                        size: 'lg',
+                        className: 'mt-5',
+                      })}
+                    >
+                      Become a member now!{' '}
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </RegisterLink>
+                  ) : (
+                    <Link
+                      href="/dashboard"
+                      className={buttonVariants({
+                        size: 'lg',
+                        className: 'mt-5',
+                      })}
+                    >
+                      View your account{' '}
+                      <ArrowRight className="ml-2 h-5 w-5" />
+                    </Link>
+                  )}
                 </div>
               </div>
             </div>
