@@ -53,11 +53,12 @@ export const appRouter = router({
         throw new TRPCError({ code: 'UNAUTHORIZED', message: 'User not found in database' });
       }
 
-      const billingUrl = absoluteUrl('/dashboard/billing');
+      const successUrl = absoluteUrl('/dashboard/billing');
+      const cancelUrl = absoluteUrl('/pricing');
 
       const stripeSession = await stripe.checkout.sessions.create({
-        success_url: billingUrl,
-        cancel_url: billingUrl,
+        success_url: successUrl,
+        cancel_url: cancelUrl,
         payment_method_types: ['card'],
         mode: 'payment',
         billing_address_collection: 'auto',

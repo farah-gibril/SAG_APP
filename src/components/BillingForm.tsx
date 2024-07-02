@@ -1,11 +1,15 @@
+// components/BillingForm.tsx
+
 'use client'
 
+import { useState } from 'react'
 import { getUserSubscriptionPlan } from '@/lib/stripe'
 import { useToast } from './ui/use-toast'
 import { trpc } from '@/app/_trpc/client'
 import MaxWidthWrapper from './MaxWidthWrapper'
 import {
   Card,
+  CardContent,
   CardDescription,
   CardFooter,
   CardHeader,
@@ -14,6 +18,7 @@ import {
 import { Button } from './ui/button'
 import { Loader2 } from 'lucide-react'
 import { format } from 'date-fns'
+import { PLANS } from '@/config/stripe'
 
 interface BillingFormProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>
@@ -22,29 +27,43 @@ interface BillingFormProps {
 const BillingForm = ({
   subscriptionPlan,
 }: BillingFormProps) => {
+  const [selectedPlan, setSelectedPlan] = useState(PLANS[0].slug)
   const { toast } = useToast()
 
-  const { mutate: createStripeSession, isLoading } = trpc.createStripeSession.useMutation({
-    onSuccess: ({ url }) => {
-      if (url) window.location.href = url
-      if (!url) {
-        toast({
-          title: 'There was a problem...',
-          description: 'Please try again in a moment',
-          variant: 'destructive',
-        })
-      }
-    },
-  }) as any
+  const { mutate: createStripeSession, isPending } =
+    trpc.createStripeSession.useMutation({
+      onSuccess: ({ url }) => {
+        if (url) window.location.href = url
+        if (!url) {
+          toast({
+            title: 'There was a problem...',
+            description: 'Please try again in a moment',
+            variant: 'destructive',
+          })
+        }
+      },
+    })
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    const plan = PLANS.find(p => p.slug === selectedPlan)
+    if (!plan) {
+      toast({
+        title: 'Error',
+        description: 'Invalid plan selected',
+        variant: 'destructive',
+      })
+      return
+    }
+    const priceId = process.env.NODE_ENV === 'production' 
+      ? plan.price.priceIds.production 
+      : plan.price.priceIds.test
+    createStripeSession({ priceId })
+  }
 
   return (
     <MaxWidthWrapper className='max-w-5xl'>
-      <form
-        className='mt-12'
-        onSubmit={(e) => {
-          e.preventDefault()
-          createStripeSession()
-        }}>
+      <form className='mt-12' onSubmit={handleSubmit}>
         <Card>
           <CardHeader>
             <CardTitle>Subscription Plan</CardTitle>
@@ -54,13 +73,27 @@ const BillingForm = ({
             </CardDescription>
           </CardHeader>
 
+          <CardContent>
+            <select 
+              value={selectedPlan} 
+              onChange={(e) => setSelectedPlan(e.target.value)}
+              className="w-full p-2 border rounded"
+            >
+              {PLANS.map((plan) => (
+                <option key={plan.slug} value={plan.slug}>
+                  {plan.name} - ${plan.quota}
+                </option>
+              ))}
+            </select>
+          </CardContent>
+
           <CardFooter className='flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0'>
-            <Button type='submit'>
-              {isLoading ? (
+            <Button type='submit' disabled={isPending}>
+              {isPending ? (
                 <Loader2 className='mr-4 h-4 w-4 animate-spin' />
               ) : null}
               {subscriptionPlan.isSubscribed
-                ? 'Manage Subscription'
+                ? 'Change Subscription'
                 : 'Upgrade to PRO'}
             </Button>
 
@@ -84,5 +117,3 @@ const BillingForm = ({
 }
 
 export default BillingForm
-
-// test x
