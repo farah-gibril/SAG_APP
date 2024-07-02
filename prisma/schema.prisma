@@ -15,14 +15,12 @@ datasource db {
 }
 
 model User {
-  id        String  @id @unique // matches kinde user id
-  email     String  @unique
-  firstName String?
-  lastName  String?
-  phoneNumber String? 
-
-
-  // Info for later so faysal can use for stripe
-  stripeCustomerId       String?   @unique @map(name: "stripe_customer_id")
-  stripePriceId          String?   @map(name: "stripe_price_id")
+  id               String  @id @unique // matches kinde user id
+  email            String  @unique
+  firstName        String?
+  lastName         String?
+  phoneNumber      String? 
+  stripeCustomerId String? @unique @map(name: "stripe_customer_id")
+  stripeAmountPaid String? @map(name: "stripe_amount_paid")
+  stripePriceId    String? @map(name: "stripe_price_id")
 }

@@ -46,6 +46,14 @@ export async function POST(request: Request) {
         return new Response('Amount total is null', { status: 400 });
       }
 
+      // Ensure price_id is available
+      const lineItems = await stripe.checkout.sessions.listLineItems(session.id);
+      const stripePriceId = lineItems.data[0]?.price?.id;
+      if (!stripePriceId) {
+        console.error('Price ID missing in session');
+        return new Response('Price ID is missing', { status: 400 });
+      }
+
       // Update the user in the database
       await db.user.update({
         where: {
@@ -53,7 +61,8 @@ export async function POST(request: Request) {
         },
         data: {
           stripeCustomerId: stripeCustomer,
-          stripePriceId: (amountTotal / 100).toString(), // Convert from cents to dollars
+          stripeAmountPaid: (amountTotal / 100).toString(), // Convert from cents to dollars
+          stripePriceId: stripePriceId,
         },
       });
 

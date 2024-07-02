@@ -14,8 +14,6 @@ import {
 } from './ui/card';
 import { Button } from './ui/button';
 import { Loader2 } from 'lucide-react';
-import { format } from 'date-fns';
-import { PLANS } from '@/config/stripe';
 
 interface BillingFormProps {
   subscriptionPlan: Awaited<ReturnType<typeof getUserSubscriptionPlan>>;
@@ -64,8 +62,11 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
 
           <CardContent>
             <p>Plan Quota: {subscriptionPlan.quota}</p>
+            {subscriptionPlan.stripeAmountPaid && (
+              <p>Amount Paid: ${(subscriptionPlan.stripeAmountPaid / 100).toFixed(2)}</p>
+            )}
             {subscriptionPlan.stripePriceId && (
-              <p>Amount Paid: ${subscriptionPlan.stripePriceId}</p>
+              <p>Price ID: {subscriptionPlan.stripePriceId}</p>
             )}
           </CardContent>
 
