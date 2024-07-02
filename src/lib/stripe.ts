@@ -17,6 +17,7 @@ export async function getUserSubscriptionPlan() {
       ...PLANS[0],
       isSubscribed: false,
       stripeCustomerId: null,
+      stripePriceId: null,
     };
   }
 
@@ -31,6 +32,7 @@ export async function getUserSubscriptionPlan() {
       ...PLANS[0],
       isSubscribed: false,
       stripeCustomerId: null,
+      stripePriceId: null,
     };
   }
 
@@ -43,6 +45,7 @@ export async function getUserSubscriptionPlan() {
   return {
     ...plan,
     stripeCustomerId: dbUser.stripeCustomerId,
+    stripePriceId: dbUser.stripePriceId,
     isSubscribed,
   };
 }

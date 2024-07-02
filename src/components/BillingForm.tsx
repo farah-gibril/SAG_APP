@@ -48,9 +48,6 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
       });
       return;
     }
-    const priceId = process.env.NODE_ENV === 'production'
-      ? subscriptionPlan.price.priceIds.production
-      : subscriptionPlan.price.priceIds.test;
     createStripeSession({ planSlug: subscriptionPlan.slug });
   };
 
@@ -66,8 +63,10 @@ const BillingForm = ({ subscriptionPlan }: BillingFormProps) => {
           </CardHeader>
 
           <CardContent>
-            {/* Displaying subscription details */}
             <p>Plan Quota: {subscriptionPlan.quota}</p>
+            {subscriptionPlan.stripePriceId && (
+              <p>Amount Paid: ${subscriptionPlan.stripePriceId}</p>
+            )}
           </CardContent>
 
           <CardFooter className='flex flex-col items-start space-y-2 md:flex-row md:justify-between md:space-x-0'>

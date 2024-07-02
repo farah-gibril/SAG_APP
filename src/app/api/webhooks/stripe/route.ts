@@ -53,7 +53,7 @@ export async function POST(request: Request) {
         },
         data: {
           stripeCustomerId: stripeCustomer,
-          stripePriceId: amountTotal.toString(),
+          stripePriceId: (amountTotal / 100).toString(), // Convert from cents to dollars
         },
       });
 
