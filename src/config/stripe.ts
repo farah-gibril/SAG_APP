@@ -17,9 +17,8 @@ export const PLANS = [
     price: {
       priceIds: {
         test: 'price_1PY16DGnUCJjsBpAvO26HkyP',
-        production: 'price_1PY16DGnUCJjsBpA9qF3rpKb',
+        production: 'price_1PY16DGnUCJjsBpAvO26HkyP',
       },
     },
   },
 ];
-// update

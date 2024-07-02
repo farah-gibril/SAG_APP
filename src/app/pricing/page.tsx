@@ -1,11 +1,21 @@
 import MaxWidthWrapper from '@/components/MaxWidthWrapper';
-import { Tooltip, TooltipProvider } from '@/components/ui/tooltip';
-import { Check } from 'lucide-react';
-import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
 import UpgradeButton from '@/components/UpgradeButton';
-import Link from 'next/link';
 import { buttonVariants } from '@/components/ui/button';
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from '@/components/ui/tooltip';
 import { PLANS } from '@/config/stripe';
+import { cn } from '@/lib/utils';
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server';
+import {
+  ArrowRight,
+  Check,
+  HelpCircle,
+} from 'lucide-react';
+import Link from 'next/link';
 
 const Page = async () => {
   const { getUser } = getKindeServerSession();
@@ -13,9 +23,9 @@ const Page = async () => {
 
   const pricingItems = [
     {
-      plan: 'New Member',
-      price: 200,
-      description: 'New members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.',
+      plan: 'Membership 200',
+      tagline: 'For new members.',
+      quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
       features: [
         'Regular membership fee: $150',
         'Admin fee: $50',
@@ -24,13 +34,13 @@ const Page = async () => {
       slug: 'membership-200',
     },
     {
-      plan: 'Standard Pricing (for existing members)',
-      price: 150,
-      description: 'This plan is for existing members looking to renew their membership. If you are a new member, this plan does not apply to you.',
+      plan: 'Membership 150',
+      tagline: 'For existing members.',
+      quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
       features: [
-        'A family (father, mother, their children, and grandparents) living within the same address costs $150.',
-        'One or two people sharing a house cost $150.',
-        'Children not living with a family at the same address must also pay $150.',
+        'Family membership: $150',
+        'Individual membership: $150',
+        'Children not living with the family: $150',
       ],
       slug: 'membership-150',
     },
@@ -46,50 +56,58 @@ const Page = async () => {
           </p>
         </div>
 
-        <div className='pt-12 grid grid-cols-1 gap-10'>
+        <div className='pt-12 grid grid-cols-1 gap-10 lg:grid-cols-2'>
           <TooltipProvider>
-            {pricingItems.map((item) => (
-              <div key={item.plan} className='relative rounded-2xl bg-white shadow-lg border-2 border-blue-600 shadow-blue-200'>
-                <div className='absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-2 text-sm font-medium text-white'>
-                  {item.plan.includes('New Member') ? 'New Member' : 'Renew now'}
-                </div>
+            {pricingItems.map(({ plan, tagline, quota, features, slug }) => {
+              const price = slug === 'membership-200' ? 200 : 150; // Explicitly set price as per plan
 
-                <div className='p-5'>
-                  <h3 className='my-3 text-center font-display text-3xl font-bold'>{item.plan}</h3>
-                  <p className='text-gray-500'>{item.description}</p>
-                  <p className='my-5 font-display text-6xl font-semibold'>${item.price}</p>
-                  <p className='text-gray-500'>per year</p>
-                </div>
-
-                <ul className='my-10 space-y-5 px-8'>
-                  {item.features.map((feature, index) => (
-                    <li key={index} className='flex space-x-5'>
-                      <div className='flex-shrink-0'>
-                        <Check className='h-6 w-6 text-blue-500' />
-                      </div>
-                      <p className='text-gray-600'>{feature}</p>
-                    </li>
-                  ))}
-                </ul>
-
-                <div className='border-t border-gray-200' />
-                <div className='p-5'>
-                  {user ? (
-                    <UpgradeButton planSlug={item.slug} />
-                  ) : (
-                    <Link
-                      href='/sign-in'
-                      className={buttonVariants({
-                        className: 'w-full',
-                        variant: 'secondary',
-                      })}
-                    >
-                      Sign up
-                    </Link>
+              return (
+                <div key={plan} className={cn('relative rounded-2xl bg-white shadow-lg', {
+                  'border-2 border-blue-600 shadow-blue-200': plan === 'Membership 200',
+                  'border border-gray-200': plan !== 'Membership 200',
+                })}>
+                  {plan === 'Membership 200' && (
+                    <div className='absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-2 text-sm font-medium text-white'>
+                      New Member
+                    </div>
                   )}
+
+                  <div className='p-5'>
+                    <h3 className='my-3 text-center font-display text-3xl font-bold'>{plan}</h3>
+                    <p className='text-gray-500'>{tagline}</p>
+                    <p className='my-5 font-display text-6xl font-semibold'>${price}</p>
+                    <p className='text-gray-500'>per year</p>
+                  </div>
+
+                  <ul className='my-10 space-y-5 px-8'>
+                    {features.map((text, index) => (
+                      <li key={index} className='flex space-x-5'>
+                        <div className='flex-shrink-0'>
+                          <Check className='h-6 w-6 text-blue-500' />
+                        </div>
+                        <p className='text-gray-600'>{text}</p>
+                      </li>
+                    ))}
+                  </ul>
+                  <div className='border-t border-gray-200' />
+                  <div className='p-5'>
+                    {user ? (
+                      <UpgradeButton planSlug={slug} />
+                    ) : (
+                      <Link
+                        href='/sign-in'
+                        className={buttonVariants({
+                          className: 'w-full',
+                          variant: 'secondary',
+                        })}
+                      >
+                        Sign up
+                      </Link>
+                    )}
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </TooltipProvider>
         </div>
       </MaxWidthWrapper>
