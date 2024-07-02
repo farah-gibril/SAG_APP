@@ -29,7 +29,8 @@ const Page = async () => {
       features: [
         'Regular membership fee: $150',
         'Admin fee: $50',
-        'Total: $200',
+        'Transaction fee: $3.8',
+        'Total: $203.8',
       ],
       slug: 'membership-200',
     },
@@ -41,6 +42,7 @@ const Page = async () => {
         'Family membership: $150',
         'Individual membership: $150',
         'Children not living with the family: $150',
+        'Transaction fee: $2.85',
       ],
       slug: 'membership-150',
     },
@@ -59,7 +61,7 @@ const Page = async () => {
         <div className='pt-12 grid grid-cols-1 gap-10 lg:grid-cols-2'>
           <TooltipProvider>
             {pricingItems.map(({ plan, tagline, quota, features, slug }) => {
-              const price = slug === 'membership-200' ? 200 : 150; // Explicitly set price as per plan
+              const price = slug === 'membership-200' ? 203.8 : 152.85; // Explicitly set price as per plan
 
               return (
                 <div key={plan} className={cn('relative rounded-2xl bg-white shadow-lg', {
