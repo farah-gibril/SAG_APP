@@ -18,9 +18,7 @@ export async function POST(request: Request) {
   } catch (err) {
     console.error('Webhook signature verification failed:', err);
     return new Response(
-      `Webhook Error: ${
-        err instanceof Error ? err.message : 'Unknown Error'
-      }`,
+      `Webhook Error: ${err instanceof Error ? err.message : 'Unknown Error'}`,
       { status: 400 }
     );
   }
@@ -34,16 +32,32 @@ export async function POST(request: Request) {
 
   if (event.type === 'checkout.session.completed') {
     try {
+      // Retrieve the payment intent to get the customer ID
       const paymentIntent = await stripe.paymentIntents.retrieve(
         session.payment_intent as string
       );
 
+      // Ensure that the customer ID is available
+      if (!paymentIntent.customer) {
+        console.error('Customer ID missing in payment intent');
+        return new Response(null, { status: 200 });
+      }
+
+      // Ensure amount_total is available
+      const amountTotal = session.amount_total;
+      if (amountTotal === null) {
+        console.error('Amount total is null');
+        return new Response('Amount total is null', { status: 400 });
+      }
+
+      // Update the user in the database
       await db.user.update({
         where: {
           id: session.metadata.userId,
         },
         data: {
           stripeCustomerId: paymentIntent.customer as string,
+          stripePriceId: amountTotal.toString(),
         },
       });
 
