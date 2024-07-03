@@ -60,7 +60,7 @@ const Home = async () => {
                     <li>A family (father, mother, their children, and grandparents) living within the same address costs $150.</li>
                     <li>One or two people sharing a house cost $150.</li>
                     <li>Children not living with a family at the same address must also pay $150.</li>
-                    <li>All new members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.  **CAN WE APPLY THIS?**</li>
+                    <li>All new members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.</li>
                   </ul>
 
                   {!user ? (

@@ -1,6 +1,21 @@
-# Project Name
+# Somali Graves Association (SAG) Project
 
-This README provides an overview of the project structure and how to set up and run the project.
+This README provides an overview of the Somali Graves Association (SAG) project, its structure, and how to set up and run the project.
+
+## Project Overview
+
+The Somali Graves Association (SAG) project is a specialized web application designed to manage yearly subscription fees for graves. This platform serves the Somali community by providing a digital solution for grave management and maintenance.
+
+Key features include:
+- User authentication: Allows users to create accounts and sign in securely.
+- Subscription management: Enables users to pay and manage their yearly grave maintenance fees.
+- Secure payment processing: Integrates with Stripe for safe and efficient financial transactions.
+
+The project aims to streamline the process of grave maintenance fee collection and management, offering a user-friendly interface for community members and an efficient system for administrators.
+
+Deployed Website: [SAG Application](https://sag-app-pi.vercel.app) 
+
+This application is built using modern web technologies, focusing on performance, security, and scalability to serve the Somali community effectively.
 
 ## Table of Contents
 
