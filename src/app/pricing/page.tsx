@@ -23,8 +23,8 @@ const Page = async () => {
 
   const pricingItems = [
     {
-      plan: 'Membership 200',
-      tagline: 'For new members.',
+      plan: 'Membership',
+      tagline: 'For all members.',
       quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
       features: [
         'Regular membership fee: $150',
@@ -33,19 +33,7 @@ const Page = async () => {
         'Total: $203.8',
       ],
       slug: 'membership-200',
-    },
-    {
-      plan: 'Membership 150',
-      tagline: 'For existing members.',
-      quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
-      features: [
-        'Family membership: $150',
-        'Individual membership: $150',
-        'Children not living with the family: $150',
-        'Transaction fee: $2.85',
-      ],
-      slug: 'membership-150',
-    },
+    }
   ];
 
   return (
