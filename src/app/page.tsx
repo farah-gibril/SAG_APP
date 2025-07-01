@@ -136,7 +136,7 @@ const Home = async () => {
             </div>
             <div className="p-6 bg-white shadow rounded-lg">
               <h3 className="text-xl font-semibold text-gray-900">Abukar Haji Abow</h3>
-              <p className="mt-2 text-gray-700">0423 377 967</p>
+              <p className="mt-2 text-gray-700">0479 010 005</p>
             </div>
             <div className="p-6 bg-white shadow rounded-lg">
               <h3 className="text-xl font-semibold text-gray-900">Hassan Ali Hassan</h3>
