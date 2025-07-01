@@ -54,7 +54,7 @@ const Page = async () => {
         'Family membership: $150',
         'Individual membership: $150',
         'Children not living with the family: $150',
-        'Transaction fee: $2.85',
+        'Transaction fee: $2.90',
       ],
       slug: 'membership-150',
     },
@@ -73,7 +73,7 @@ const Page = async () => {
           <TooltipProvider>
             
             {pricingItems.map(({ plan, tagline, quota, features, slug }) => {
-              const price = slug === 'membership-200' ? 203.8 : 152.85;
+              const price = slug === 'membership-200' ? 203.8 : 152.9;
               return (
                 <div
                   key={plan}
