@@ -86,11 +86,17 @@ const MobileNav = ({ isAuth, isSubscribed }: MobileNavProps) => {
                 <li>
                   {isSubscribed ? (
                     <Link
-                      onClick={() => closeOnCurrent('/dashboard/billing')}
+                      onClick={() => closeOnCurrent('/pricing')}
                       className='flex items-center w-full font-semibold'
-                      href='/dashboard/billing'>
-                      Manage Subscription
+                      href='/pricing'>
+                      Pricing
                     </Link>
+                    // <Link
+                    //   onClick={() => closeOnCurrent('/dashboard/billing')}
+                    //   className='flex items-center w-full font-semibold'
+                    //   href='/dashboard/billing'>
+                    //   Manage Subscription
+                    // </Link>
                   ) : (
                     <Link
                       onClick={() => closeOnCurrent('/pricing')}
