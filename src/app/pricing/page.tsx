@@ -36,7 +36,7 @@ const Page = async () => {
     // }
     {
       plan: 'New Member',
-      tagline: 'For new members only',
+      tagline: 'For all members',
       quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
       features: [
         'Regular membership fee: $150',
@@ -46,18 +46,18 @@ const Page = async () => {
       ],
       slug: 'membership-200',
     },
-    {
-      plan: 'Existing Member',
-      tagline: 'For existing members only',
-      quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
-      features: [
-        'Family membership: $150',
-        'Individual membership: $150',
-        'Children not living with the family: $150',
-        'Transaction fee: $2.90',
-      ],
-      slug: 'membership-150',
-    },
+    // {
+    //   plan: 'Existing Member',
+    //   tagline: 'For existing members only',
+    //   quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
+    //   features: [
+    //     'Family membership: $150',
+    //     'Individual membership: $150',
+    //     'Children not living with the family: $150',
+    //     'Transaction fee: $2.90',
+    //   ],
+    //   slug: 'membership-150',
+    // },
   ];
 
   return (
