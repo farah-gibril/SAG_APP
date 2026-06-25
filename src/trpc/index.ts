@@ -113,6 +113,35 @@ export const appRouter = router({
 
       return { success: true };
     }),
+
+  updateUserDetails: publicProcedure
+    .input(
+      z.object({
+        userId: z.string(),
+        phoneNumber: z.string().optional(),
+        address: z.string().optional(),
+        familyMembers: z.number().int().min(0).optional(),
+      })
+    )
+    .mutation(async ({ input }) => {
+      const { userId, phoneNumber, address, familyMembers } = input;
+
+      const data: {
+        phoneNumber?: string;
+        address?: string;
+        familyMembers?: number;
+      } = {};
+      if (phoneNumber !== undefined) data.phoneNumber = phoneNumber;
+      if (address !== undefined) data.address = address;
+      if (familyMembers !== undefined) data.familyMembers = familyMembers;
+
+      await db.user.update({
+        where: { id: userId },
+        data,
+      });
+
+      return { success: true };
+    }),
 });
 
 export type AppRouter = typeof appRouter;

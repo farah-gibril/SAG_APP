@@ -19,7 +19,9 @@ model User {
   email            String  @unique
   firstName        String?
   lastName         String?
-  phoneNumber      String? 
+  phoneNumber      String?
+  address          String?
+  familyMembers    Int?    @map(name: "family_members")
   stripeCustomerId String? @unique @map(name: "stripe_customer_id")
   stripeAmountPaid String? @map(name: "stripe_amount_paid")
   stripePriceId    String? @map(name: "stripe_price_id")
