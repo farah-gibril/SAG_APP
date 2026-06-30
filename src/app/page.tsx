@@ -57,10 +57,10 @@ const Home = async () => {
 
                   <h2 className="text-2xl font-bold mt-6 mb-4">The costs of being a member are:</h2>
                   <ul className="list-disc list-inside space-y-2">
-                    <li>A family (father, mother, their children, and grandparents) living within the same address costs $150.</li>
-                    <li>One or two people sharing a house cost $150.</li>
-                    <li>Children not living with a family at the same address must also pay $150.</li>
-                    <li>All new members need to pay a $50 admin fee plus the regular membership fee of $150, totaling $200.</li>
+                    <li>Children not living with their family and grandparents at the same address, or who have moved out for more than 12 months, costs $153.80.</li>
+                    <li>One or more people sharing a house or unit costs $153.80.</li>
+                    <li>A family (father, mother, their children, and grandparents) living within the same address costs $153.80.</li>
+                    <li>All new members need to pay a $50 admin fee plus the regular membership fee, totaling $254.80.</li>
                   </ul>
 
                   {!user ? (
@@ -145,6 +145,10 @@ const Home = async () => {
             <div className="p-6 bg-white shadow rounded-lg">
               <h3 className="text-xl font-semibold text-gray-900">Hassan Farah Gibril</h3>
               <p className="mt-2 text-gray-700">0431 551 353</p>
+            </div>
+            <div className="p-6 bg-white shadow rounded-lg">
+              <h3 className="text-xl font-semibold text-gray-900">Abdirisak Khalif</h3>
+              <p className="mt-2 text-gray-700">0402 634 805</p>
             </div>
           </div>
         </MaxWidthWrapper>
