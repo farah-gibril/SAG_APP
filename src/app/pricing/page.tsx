@@ -36,28 +36,26 @@ const Page = async () => {
     // }
     {
       plan: 'New Member',
-      tagline: 'For all members',
+      tagline: 'For new members',
       quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
       features: [
-        'Regular membership fee: $150',
-        'Admin fee: $50',
-        'Transaction fee: $3.8',
-        'Total: $203.8',
+        'Includes a $50 admin fee',
+        'One-time payment per year',
+        'Total: $254.80',
       ],
       slug: 'membership-200',
     },
-    // {
-    //   plan: 'Existing Member',
-    //   tagline: 'For existing members only',
-    //   quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
-    //   features: [
-    //     'Family membership: $150',
-    //     'Individual membership: $150',
-    //     'Children not living with the family: $150',
-    //     'Transaction fee: $2.90',
-    //   ],
-    //   slug: 'membership-150',
-    // },
+    {
+      plan: 'Existing Member',
+      tagline: 'For existing members only',
+      quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
+      features: [
+        'Renewal membership fee',
+        'One-time payment per year',
+        'Total: $153.80',
+      ],
+      slug: 'membership-150',
+    },
   ];
 
   return (
@@ -73,16 +71,16 @@ const Page = async () => {
           <TooltipProvider>
             
             {pricingItems.map(({ plan, tagline, quota, features, slug }) => {
-              const price = slug === 'membership-200' ? 203.8 : 152.9;
+              const price = slug === 'membership-200' ? 254.8 : 153.8;
               return (
                 <div
                   key={plan}
                   className={cn('relative rounded-2xl bg-white shadow-lg', {
-                    'border-2 border-blue-600 shadow-blue-200': plan === 'Membership 200',
+                    'border-2 border-blue-600 shadow-blue-200': plan === 'New Member',
                     'border border-gray-200': plan !== 'Membership 200',
                   })}
                 >
-                  {plan === 'Membership 200' && (
+                  {plan === 'New Member' && (
                     <div className='absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-2 text-sm font-medium text-white'>
                       New Member
                     </div>
@@ -150,11 +148,11 @@ export default Page;
 //                   <div
 //                     key={plan}
 //                     className={cn('relative rounded-2xl bg-white shadow-lg', {
-//                       'border-2 border-blue-600 shadow-blue-200': plan === 'Membership 200',
+//                       'border-2 border-blue-600 shadow-blue-200': plan === 'New Member',
 //                       'border border-gray-200': plan !== 'Membership 200',
 //                     })}
 //                   >
-//                     {plan === 'Membership 200' && (
+//                     {plan === 'New Member' && (
 //                       <div className='absolute -top-5 left-0 right-0 mx-auto w-32 rounded-full bg-gradient-to-r from-blue-600 to-cyan-600 px-3 py-2 text-sm font-medium text-white'>
 //                         New Member
 //                       </div>
