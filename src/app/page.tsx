@@ -60,7 +60,7 @@ const Home = async () => {
                     <li>Children not living with their family and grandparents at the same address, or who have moved out for more than 12 months, costs $153.80.</li>
                     <li>One or more people sharing a house or unit costs $153.80.</li>
                     <li>A family (father, mother, their children, and grandparents) living within the same address costs $153.80.</li>
-                    <li>All new members need to pay a $50 admin fee plus the regular membership fee, totaling $254.80.</li>
+                    <li>All new members need to pay a $50 admin fee plus the regular membership fee, totaling $204.80.</li>
                   </ul>
 
                   {!user ? (

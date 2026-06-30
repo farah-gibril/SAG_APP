@@ -2,11 +2,11 @@ export const PLANS = [
   {
     name: 'Membership 200',
     slug: 'membership-200',
-    quota: 254.8,
+    quota: 204.8,
     price: {
       priceIds: {
-        test: 'price_1Tnzf2GnUCJjsBpADwiEdief',
-        production: 'price_1Tnzf2GnUCJjsBpADwiEdief',
+        test: 'price_1To0ljGnUCJjsBpAxxCzIGAy',
+        production: 'price_1To0ljGnUCJjsBpAxxCzIGAy',
       },
     },
   },

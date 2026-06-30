@@ -41,7 +41,7 @@ const Page = async () => {
       features: [
         'Includes a $50 admin fee',
         'One-time payment per year',
-        'Total: $254.80',
+        'Total: $204.80',
       ],
       slug: 'membership-200',
     },
@@ -71,7 +71,7 @@ const Page = async () => {
           <TooltipProvider>
             
             {pricingItems.map(({ plan, tagline, quota, features, slug }) => {
-              const price = slug === 'membership-200' ? 254.8 : 153.8;
+              const price = slug === 'membership-200' ? 204.8 : 153.8;
               return (
                 <div
                   key={plan}
