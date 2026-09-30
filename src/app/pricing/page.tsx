@@ -22,40 +22,40 @@ const Page = async () => {
   const user = await getUser();
 
   const pricingItems = [
-    // {
-    //   plan: 'Membership',
-    //   tagline: 'For all members.',
-    //   quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
-    //   features: [
-    //     'Regular membership fee: $150',
-    //     'Admin fee: $50',
-    //     'Transaction fee: $3.8',
-    //     'Total: $203.8',
-    //   ],
-    //   slug: 'membership-200',
-    // }
     {
-      plan: 'New Member',
-      tagline: 'For new members',
+      plan: 'Membership',
+      tagline: 'For all members.',
       quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
       features: [
-        'Includes a $50 admin fee',
-        'One-time payment per year',
-        'Total: $204.80',
+        'Regular membership fee: $150',
+        'Admin fee: $50',
+        'Transaction fee: $4.8',
+        'Total: $204.8',
       ],
       slug: 'membership-200',
     },
-    {
-      plan: 'Existing Member',
-      tagline: 'For existing members only',
-      quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
-      features: [
-        'Renewal membership fee',
-        'One-time payment per year',
-        'Total: $153.80',
-      ],
-      slug: 'membership-150',
-    },
+    // {
+    //   plan: 'New Member',
+    //   tagline: 'For new members',
+    //   quota: PLANS.find((p) => p.slug === 'membership-200')!.quota,
+    //   features: [
+    //     'Includes a $50 admin fee',
+    //     'One-time payment per year',
+    //     'Total: $204.80',
+    //   ],
+    //   slug: 'membership-200',
+    // },
+    // {
+    //   plan: 'Existing Member',
+    //   tagline: 'For existing members only',
+    //   quota: PLANS.find((p) => p.slug === 'membership-150')!.quota,
+    //   features: [
+    //     'Renewal membership fee',
+    //     'One-time payment per year',
+    //     'Total: $153.80',
+    //   ],
+    //   slug: 'membership-150',
+    // },
   ];
 
   return (
