@@ -52,13 +52,13 @@ const Home = async () => {
                     <li>He/She must be of Somali origin (one parent or both must be Somali)</li>
                     <li>Must be in a stable health condition (Don't wait until a person is critically ill or in hospital to become a member)</li>
                     <li>Must be a Sunni Muslim</li>
-                    <li>Must pay the Membership fee every year between the period of July - end of September. Any payments made after this period are considered late, and a late fee will be applied.</li>
+                    <li>Must pay the Membership fee every year between the period of July - end of September. Any payments made after this period are considered late, and a late admin fee will be applied.</li>
                   </ul>
 
                   <h2 className="text-2xl font-bold mt-6 mb-4">The costs of being a member are:</h2>
                   <ul className="list-disc list-inside space-y-2">
                     <li>Children not living with their family and grandparents at the same address, or who have moved out for more than 12 months, costs $153.80.</li>
-                    <li>One or more people sharing a house or unit costs $153.80.</li>
+                    <li>One or more people sharing a house or unit costs $153.80 each (this applies for people who are not direct family).</li>
                     <li>A family (father, mother, their children, and grandparents) living within the same address costs $153.80.</li>
                     <li>All new members need to pay a $50 admin fee plus the regular membership fee, totaling $204.80.</li>
                   </ul>
